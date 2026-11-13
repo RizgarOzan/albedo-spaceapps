@@ -71,7 +71,7 @@ def window(lat0, lon0, size_px, m_per_px):
     c0, c1 = int(np.floor(cc.min())) - pad, int(np.ceil(cc.max())) + pad + 1
     assert r0 >= 0 and c0 >= 0 and r1 <= DEM_N and c1 <= DEM_N, "window outside 85S-90S tile"
     blk = fetch_rows(r0, r1, c0, c1)
-    return bilinear(blk, rr - r0, cc - c0).astype(np.float32)
+    return (bilinear(blk, rr - r0, cc - c0) * 1000.0).astype(np.float32)  # LDEM_FLOAT is in km -> m
 
 
 def horizon(dem, m_per_px, obs_h=2.0):

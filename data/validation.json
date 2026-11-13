@@ -8,62 +8,62 @@
   {
    "site": "shackleton",
    "quantity": "illumination_fraction",
-   "modelled": 0.5517,
+   "modelled": 0.9221,
    "published_at_poi": 0.8681,
    "published_300m_patch_min": 0.3794,
    "published_300m_patch_max": 0.8706,
-   "abs_err": -0.3164,
-   "rel_err_pct": -36.4
+   "abs_err": 0.054,
+   "rel_err_pct": 6.2
   },
   {
    "site": "shackleton",
    "quantity": "earth_visible_fraction",
-   "modelled": 0.4608,
+   "modelled": 0.4586,
    "published_at_poi": 0.5363,
    "published_300m_patch_min": 0.0146,
    "published_300m_patch_max": 0.5375,
-   "abs_err": -0.0755,
-   "rel_err_pct": -14.1
+   "abs_err": -0.0777,
+   "rel_err_pct": -14.5
   },
   {
    "site": "nobile",
    "quantity": "illumination_fraction",
-   "modelled": 0.4934,
+   "modelled": 0.9104,
    "published_at_poi": 0.8292,
    "published_300m_patch_min": 0.3192,
    "published_300m_patch_max": 0.8315,
-   "abs_err": -0.3358,
-   "rel_err_pct": -40.5
+   "abs_err": 0.0812,
+   "rel_err_pct": 9.8
   },
   {
    "site": "nobile",
    "quantity": "earth_visible_fraction",
-   "modelled": 0.6749,
+   "modelled": 0.5914,
    "published_at_poi": 0.5978,
    "published_300m_patch_min": 0.3239,
    "published_300m_patch_max": 0.6893,
-   "abs_err": 0.0771,
-   "rel_err_pct": 12.9
+   "abs_err": -0.0064,
+   "rel_err_pct": -1.1
   },
   {
    "site": "malapert",
    "quantity": "illumination_fraction",
-   "modelled": 0.4949,
+   "modelled": 0.6476,
    "published_at_poi": 0.5664,
    "published_300m_patch_min": 0.4223,
    "published_300m_patch_max": 0.7029,
-   "abs_err": -0.0715,
-   "rel_err_pct": -12.6
+   "abs_err": 0.0812,
+   "rel_err_pct": 14.3
   },
   {
    "site": "malapert",
    "quantity": "earth_visible_fraction",
-   "modelled": 0.6821,
+   "modelled": 0.795,
    "published_at_poi": 0.8445,
    "published_300m_patch_min": 0.6517,
    "published_300m_patch_max": 0.9253,
-   "abs_err": -0.1624,
-   "rel_err_pct": -19.2
+   "abs_err": -0.0495,
+   "rel_err_pct": -5.9
   }
  ],
  "literature": [
@@ -72,9 +72,9 @@
    "url": "https://ntrs.nasa.gov/citations/20120010094",
    "site": "shackleton",
    "published_longest_dark_hours": 36.0,
-   "modelled_longest_dark_hours": 3927.0,
-   "abs_err": 3891.0,
-   "rel_err_pct": 10808.3,
+   "modelled_longest_dark_hours": 102.0,
+   "abs_err": 66.0,
+   "rel_err_pct": 183.3,
    "caveat": "Published value is for the single best rim location over 18.6 yr, 0 m height; ours is a specific rim pixel, 2 m observer, 2027 only."
   }
  ],
@@ -83,85 +83,85 @@
    "site": "shackleton",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.5518,
-   "longest_dark_hours": 3926.0
+   "illumination_fraction": 0.9221,
+   "longest_dark_hours": 102.0
   },
   {
    "site": "shackleton",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.5761,
-   "longest_dark_hours": 3336.0
+   "illumination_fraction": 0.9452,
+   "longest_dark_hours": 83.0
   },
   {
    "site": "shackleton",
    "observer_h_m": 0.0,
    "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.536,
-   "longest_dark_hours": 3982.0
+   "illumination_fraction": 0.4573,
+   "longest_dark_hours": 539.0
   },
   {
    "site": "shackleton",
    "observer_h_m": 0.0,
    "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.5615,
-   "longest_dark_hours": 3841.0
+   "illumination_fraction": 0.5328,
+   "longest_dark_hours": 521.0
   },
   {
    "site": "nobile",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.4934,
-   "longest_dark_hours": 423.0
+   "illumination_fraction": 0.9104,
+   "longest_dark_hours": 138.0
   },
   {
    "site": "nobile",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.5121,
-   "longest_dark_hours": 409.0
+   "illumination_fraction": 0.9336,
+   "longest_dark_hours": 114.0
   },
   {
    "site": "nobile",
    "observer_h_m": 0.0,
    "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.4865,
+   "illumination_fraction": 0.5025,
+   "longest_dark_hours": 544.0
+  },
+  {
+   "site": "nobile",
+   "observer_h_m": 0.0,
+   "sun_limb_deg": 0.2667,
+   "illumination_fraction": 0.5551,
+   "longest_dark_hours": 517.0
+  },
+  {
+   "site": "malapert",
+   "observer_h_m": 2.0,
+   "sun_limb_deg": 0.0,
+   "illumination_fraction": 0.6476,
+   "longest_dark_hours": 341.0
+  },
+  {
+   "site": "malapert",
+   "observer_h_m": 2.0,
+   "sun_limb_deg": 0.2667,
+   "illumination_fraction": 0.6789,
+   "longest_dark_hours": 330.0
+  },
+  {
+   "site": "malapert",
+   "observer_h_m": 0.0,
+   "sun_limb_deg": 0.0,
+   "illumination_fraction": 0.4849,
    "longest_dark_hours": 428.0
   },
   {
-   "site": "nobile",
-   "observer_h_m": 0.0,
-   "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.505,
-   "longest_dark_hours": 415.0
-  },
-  {
-   "site": "malapert",
-   "observer_h_m": 2.0,
-   "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.4951,
-   "longest_dark_hours": 436.0
-  },
-  {
-   "site": "malapert",
-   "observer_h_m": 2.0,
-   "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.5175,
-   "longest_dark_hours": 420.0
-  },
-  {
-   "site": "malapert",
-   "observer_h_m": 0.0,
-   "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.4876,
-   "longest_dark_hours": 441.0
-  },
-  {
    "site": "malapert",
    "observer_h_m": 0.0,
    "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.5096,
-   "longest_dark_hours": 425.0
+   "illumination_fraction": 0.5031,
+   "longest_dark_hours": 413.0
   }
  ]
 }
