@@ -1,0 +1,44 @@
+[
+ {
+  "id": "shackleton",
+  "name": "Shackleton crater rim (high-illumination rim point)",
+  "lat": -89.6864,
+  "lon": 197.0629,
+  "dem_file": "dem/shackleton.bin",
+  "dem_size_px": 512,
+  "meters_per_px": 40.0,
+  "elev_min_m": -2.8,
+  "elev_max_m": 2.0,
+  "poi_elev_m": 1.7,
+  "dem_source": "NASA LRO LOLA LDEM_85S_20M_FLOAT (PDS Geosciences Node, V2.1, relative to 1737.4 km sphere), bilinearly resampled from polar stereographic to a local 40 m/px ENU grid",
+  "dem_url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_85s_20m_float.img"
+ },
+ {
+  "id": "nobile",
+  "name": "Nobile crater rim (high-illumination rim point)",
+  "lat": -85.3003,
+  "lon": 37.0989,
+  "dem_file": "dem/nobile.bin",
+  "dem_size_px": 512,
+  "meters_per_px": 40.0,
+  "elev_min_m": 2.0,
+  "elev_max_m": 6.8,
+  "poi_elev_m": 6.8,
+  "dem_source": "NASA LRO LOLA LDEM_85S_20M_FLOAT (PDS Geosciences Node, V2.1, relative to 1737.4 km sphere), bilinearly resampled from polar stereographic to a local 40 m/px ENU grid",
+  "dem_url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_85s_20m_float.img"
+ },
+ {
+  "id": "malapert",
+  "name": "Malapert massif summit",
+  "lat": -85.9878,
+  "lon": 2.0648,
+  "dem_file": "dem/malapert.bin",
+  "dem_size_px": 512,
+  "meters_per_px": 40.0,
+  "elev_min_m": 0.9,
+  "elev_max_m": 5.2,
+  "poi_elev_m": 5.2,
+  "dem_source": "NASA LRO LOLA LDEM_85S_20M_FLOAT (PDS Geosciences Node, V2.1, relative to 1737.4 km sphere), bilinearly resampled from polar stereographic to a local 40 m/px ENU grid",
+  "dem_url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/float_img/ldem_85s_20m_float.img"
+ }
+]

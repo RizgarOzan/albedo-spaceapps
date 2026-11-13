@@ -1,0 +1,23 @@
+{
+ "shackleton": {
+  "illumination_fraction": 0.5517,
+  "longest_dark_hours": 3927.0,
+  "earth_visible_fraction": 0.4608,
+  "longest_no_earth_hours": 355.0,
+  "mean_sun_el_when_up": 0.932
+ },
+ "nobile": {
+  "illumination_fraction": 0.4934,
+  "longest_dark_hours": 423.0,
+  "earth_visible_fraction": 0.6749,
+  "longest_no_earth_hours": 220.0,
+  "mean_sun_el_when_up": 3.036
+ },
+ "malapert": {
+  "illumination_fraction": 0.4949,
+  "longest_dark_hours": 436.0,
+  "earth_visible_fraction": 0.6821,
+  "longest_no_earth_hours": 215.0,
+  "mean_sun_el_when_up": 2.603
+ }
+}

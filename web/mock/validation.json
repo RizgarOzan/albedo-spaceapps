@@ -1,0 +1,29 @@
+[
+ {
+  "site": "shackleton",
+  "metric": "illumination_fraction",
+  "model": 0.0695,
+  "published": 0.0846,
+  "abs_error": 0.0151,
+  "rel_error_pct": 17.85,
+  "source": "MOCK - not a real publication"
+ },
+ {
+  "site": "nobile",
+  "metric": "illumination_fraction",
+  "model": 0.2621,
+  "published": 0.2638,
+  "abs_error": 0.0017,
+  "rel_error_pct": 0.64,
+  "source": "MOCK - not a real publication"
+ },
+ {
+  "site": "malapert",
+  "metric": "illumination_fraction",
+  "model": 0.3768,
+  "published": 0.3704,
+  "abs_error": 0.0064,
+  "rel_error_pct": 1.73,
+  "source": "MOCK - not a real publication"
+ }
+]

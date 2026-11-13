@@ -1,0 +1,41 @@
+[
+ {
+  "id": "shackleton",
+  "name": "Shackleton rim (MOCK)",
+  "lat": -89.9,
+  "lon": 129.2,
+  "dem_file": "dem/shackleton.bin",
+  "dem_size_px": 128,
+  "meters_per_px": 120,
+  "elev_min_m": -330.05350531118984,
+  "elev_max_m": 243.05684260321465,
+  "dem_source": "MOCK synthetic DEM",
+  "dem_url": ""
+ },
+ {
+  "id": "nobile",
+  "name": "Nobile rim (MOCK)",
+  "lat": -85.4,
+  "lon": 31.6,
+  "dem_file": "dem/nobile.bin",
+  "dem_size_px": 128,
+  "meters_per_px": 120,
+  "elev_min_m": -319.78738887837153,
+  "elev_max_m": 69.53117506354172,
+  "dem_source": "MOCK synthetic DEM",
+  "dem_url": ""
+ },
+ {
+  "id": "malapert",
+  "name": "Malapert massif (MOCK)",
+  "lat": -86,
+  "lon": 0,
+  "dem_file": "dem/malapert.bin",
+  "dem_size_px": 128,
+  "meters_per_px": 120,
+  "elev_min_m": -314.7077167604013,
+  "elev_max_m": -97.05133372730954,
+  "dem_source": "MOCK synthetic DEM",
+  "dem_url": ""
+ }
+]
