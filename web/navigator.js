@@ -13,11 +13,17 @@ export const CSV_COLS = [
 ];
 
 export function initNavigator(ctx) {
-  const st = { site: null, data: null, pub: null, rows: [], last: null, cv: $('navMap'), img: null };
+  const st = { site: null, data: null, pub: null, rows: [], last: null, obsH: 2, cv: $('navMap'), img: null };
   const msg = t => { $('navMsg').textContent = t || ''; };
   const sel = $('navSite');
   ctx.sites.forEach(s => sel.add(new Option(s.name || s.id, s.id)));
   sel.onchange = () => load(sel.value);
+  $('navH').onchange = async () => {
+    st.obsH = parseFloat($('navH').value); msg('Rescoring at ' + st.obsH + ' m...');
+    await new Promise(r => setTimeout(r, 20));
+    st.rows = st.rows.map(r => evaluate(r.row, r.col, r.picked)); st.last = st.rows.find(r => r.picked) ? st.rows.filter(r => r.picked).pop() : null;
+    msg(''); render();
+  };
   $('navGo').onclick = () => {
     const lat = parseFloat($('navLat').value), lon = parseFloat($('navLon').value);
     if (Number.isNaN(lat) || Number.isNaN(lon)) return msg('Enter numeric lat and lon (degrees, east-positive lon).');
@@ -36,7 +42,7 @@ export function initNavigator(ctx) {
   function evaluate(row, col, picked) {
     const s = st.site, n = s.dem_size_px;
     if (row < 0 || col < 0 || row > n - 1 || col > n - 1) { msg('Point is outside the ' + (n * s.meters_per_px / 1000) + ' km DEM window of this site.'); return null; }
-    const x = seriesStats(st.data.ephemeris, horizonFromDem(st.data.dem, n, s.meters_per_px, row, col, 2)), earthTrunc = sectorTruncated(st.data.ephemeris.earth_az, truncatedAz(n, s.meters_per_px, row, col)), ll = pxToLatLon(s, row, col);
+    const x = seriesStats(st.data.ephemeris, horizonFromDem(st.data.dem, n, s.meters_per_px, row, col, st.obsH)), earthTrunc = sectorTruncated(st.data.ephemeris.earth_az, truncatedAz(n, s.meters_per_px, row, col)), ll = pxToLatLon(s, row, col);
     const m = NAV_MARGIN_PX, edge = row < m || col < m || row > n - 1 - m || col > n - 1 - m;
     const pubEarth = st.pub.earth ? samplePublished(st.pub.earth, PUB, s, row, col) : null;
     return { row, col, lat: ll.lat, lon: ll.lon, sun: x.sun, earth: x.earth, darkH: x.darkH, noEarthH: x.noEarthH, edge, earthTrunc, picked,
