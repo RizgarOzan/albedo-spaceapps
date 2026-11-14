@@ -95,7 +95,7 @@ export function checksumText(root = DEFAULT_ROOT) {
 export function verifyChecksums(root = DEFAULT_ROOT) {
   const p = join(root, 'CHECKSUMS');
   if (!existsSync(p)) return ['CHECKSUMS missing (run: node scripts/check_data.mjs --write)'];
-  const want = new Map(readFileSync(p, 'utf8').split('\n').filter(Boolean).map(l => { const i = l.indexOf('  '); return [l.slice(i + 2), l.slice(0, i)]; }));
+  const want = new Map(readFileSync(p, 'utf8').split(/\r?\n/).filter(Boolean).map(l => { const i = l.indexOf('  '); return [l.slice(i + 2), l.slice(0, i)]; }));
   const errs = [];
   for (const f of listDataFiles(root)) {
     if (!want.has(f)) errs.push(f + ': not in CHECKSUMS');
