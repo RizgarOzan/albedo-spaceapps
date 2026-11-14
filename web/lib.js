@@ -70,9 +70,9 @@ export function normalizeValidation(v) {
     site: pick(r, 'site', 'id', 'site_id'),
     metric: pick(r, 'metric', 'quantity', 'name') || 'illumination_fraction',
     model: pick(r, 'model', 'model_value', 'ours', 'modelled'),
-    published: pick(r, 'published', 'published_value', 'reference', 'nasa'),
+    published: pick(r, 'published', 'published_value', 'published_at_poi', 'reference', 'nasa'),
     abs_error: pick(r, 'abs_error', 'absolute_error', 'abs_err'),
-    rel_error_pct: pick(r, 'rel_error_pct', 'relative_error_pct', 'rel_error_percent', 'rel_error'),
+    rel_error_pct: pick(r, 'rel_error_pct', 'rel_err_pct', 'relative_error_pct', 'rel_error_percent', 'rel_error'),
     source: pick(r, 'source', 'citation', 'reference_source'),
     note: pick(r, 'note', 'notes', 'comment')
   }));
