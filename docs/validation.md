@@ -47,3 +47,30 @@ For each site the model is run at 0, 2 and 5 m observer height. The 5x5 check pu
 | malapert | 5 m | 74.8 | +14.2 / 15.2 | 82.5 | +2.1 / 6.2 |
 
 What it says: for Earth the 5 m row has the smallest bias at all three sites (Shackleton +0.7, Nobile +0.8, Malapert +2.1 points); the 2 m row is 3 to 5 points low. For the Sun the bias is 5 to 10 points high at 2 m and 14 to 25 points high at 5 m, and 7 to 12 points low at 0 m, so the NASA map sits between our 0 m and 2 m results. RMSE stays at 6 to 29 points whatever the height, so sub-pixel position matters more than the height choice. No single height is "right" and we do not tune it to the NASA maps.
+
+## Sensitivity (`scripts/sensitivity.py`, `data/sensitivity.json`)
+
+Same DEM windows and 2027 hourly ephemerides as everywhere else; only the maximum ray length (2 m observer) or the observer height (full 10.24 km) changes. This is a convergence test of our own model, not a comparison with an outside source. Nothing beyond the 10.24 km window was computed (no DEM there), so the true limit is not measured.
+
+Ray range, Sun fraction / longest dark spell (h) / Earth fraction / largest horizon change vs the 10.24 km run:
+
+| Site | 2.5 km | 5 km | 7.5 km | 10.24 km |
+|---|---|---|---|---|
+| Shackleton | 0.941 / 102 / 0.468 / 4.5 deg | 0.926 / 102 / 0.459 / 3.0 deg | 0.897 / 102 / 0.459 / 2.9 deg | 0.887 / 102 / 0.459 / 0 |
+| Nobile | 0.910 / 138 / 0.591 / 2.3 deg | 0.910 / 138 / 0.591 / 2.3 deg | 0.897 / 138 / 0.591 / 0.18 deg | 0.896 / 138 / 0.591 / 0 |
+| Malapert | 0.648 / 341 / 0.795 / 1.1 deg | 0.648 / 341 / 0.795 / 1.1 deg | 0.648 / 341 / 0.795 / 1.1 deg | 0.646 / 341 / 0.795 / 0 |
+
+Observer height at 10.24 km, Sun fraction / longest dark spell (h) / Earth fraction:
+
+| Site | 0 m | 2 m | 5 m |
+|---|---|---|---|
+| Shackleton | 0.457 / 539 / 0.457 | 0.887 / 102 / 0.459 | 0.929 / 74 / 0.461 |
+| Nobile | 0.499 / 544 / 0.423 | 0.896 / 138 / 0.591 | 0.944 / 96 / 0.625 |
+| Malapert | 0.485 / 428 / 0.727 | 0.646 / 341 / 0.795 | 0.748 / 310 / 0.825 |
+
+What it says:
+- Nobile and Malapert are converged for the Sun by 7.5 km (change from 7.5 to 10.24 km: -0.001 and -0.002). Horizon changes of 1 to 2 deg between 2.5 and 10.24 km occur at 11 to 22 azimuths only, and the Sun fraction moves 0.002 to 0.014.
+- Shackleton is not converged. The Sun fraction still fell 0.897 to 0.887 between 7.5 and 10.24 km, and from 2.5 to 10.24 km it fell 0.054; the horizon at some azimuths rose by 2.9 deg between 7.5 and 10.24 km. Terrain farther than 10.24 km (Connecting Ridge, de Gerlache rim) would likely lower it further. This is the objection in the jury feedback, and we cannot quantify it without a larger DEM window. Not measured.
+- Longest dark spell and Earth fraction did not change with range at the three sites (Shackleton longest no-Earth spell 345 h at 2.5 km, 354 h from 5 km on).
+- Observer height matters far more than range: 0 to 2 m moves the Sun fraction by 0.16 to 0.43 and 2 to 5 m by 0.04 to 0.10 (see the earlier caveat on 0 m vs 2 m). Longest dark spell at Shackleton: 539 h at 0 m, 102 h at 2 m, 74 h at 5 m.
+- Still one year (2027) and one model; a second year or an independent horizon code was not run (not measured).
