@@ -138,3 +138,27 @@ test('data/ passes integrity checks and CHECKSUMS match', async () => {
   assert.deepEqual(D.checkData(), []);
   assert.deepEqual(D.verifyChecksums(), []);
 });
+
+test('landingWindows: fractions, dark spell, incomplete tail', () => {
+  const sun = new Uint8Array(24 * 20).fill(1), earth = new Uint8Array(24 * 20).fill(1);
+  for (let i = 24 * 3; i < 24 * 3 + 10; i++) sun[i] = 0;       // 10 h dark on day 3
+  for (let i = 0; i < 24 * 7; i++) earth[i] = 0;               // no Earth for the first 7 days
+  const w = L.landingWindows(sun, earth, 60, 14);
+  assert.equal(w.length, 20);
+  assert.equal(w[0].darkH, 10); assert.ok(Math.abs(w[0].sun - (336 - 10) / 336) < 1e-12);
+  assert.equal(w[0].earth, 0.5); assert.equal(w[0].noEarthH, 168); assert.equal(w[0].score, 0.5);
+  assert.equal(w[6].noEarthH, 24); assert.equal(w[7], null);
+});
+test('topWindows is non-overlapping and ordered', () => {
+  const mk = (day, score, darkH = 0) => ({ day, score, darkH });
+  const t = L.topWindows([mk(0, .9), mk(1, .95), mk(20, .8), null, mk(5, .7)], 3, 14);
+  assert.deepEqual(t.map(x => x.day), [1, 20]);
+});
+test('delayScenario flags best site at the delayed day', () => {
+  const mk = score => ({ score });
+  const by = { a: [mk(.9), mk(.2)], b: [mk(.1), mk(.6)], c: [mk(.5), null] };
+  const r = L.delayScenario(by, 'a', 0, 1);
+  assert.equal(r.planned.score, .9); assert.equal(r.bestId, 'b');
+  assert.equal(r.delayed.find(x => x.id === 'c').w, null);
+  assert.equal(L.delayScenario(by, 'a', 0, 5).bestId, null);
+});

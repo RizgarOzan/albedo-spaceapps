@@ -2,6 +2,7 @@ import * as THREE from './vendor/three.module.js';
 import { loadSites, loadSiteData, loadOptional, normalizeValidation, stepIndex, horizonAt, isVisible,
   visibilitySeries, nextTransition, formatCountdown, formatUtc } from './lib.js';
 import { initNavigator } from './navigator.js';
+import { initPlanner } from './planner.js';
 import { Sonifier } from './sonify.js';
 
 const $ = id => document.getElementById(id);
@@ -296,9 +297,10 @@ function loop(prev) {
 
 async function main() {
   $('tabExplore').onclick = () => tab(true); $('tabValid').onclick = () => tab(false);
-  $('tabNav').onclick = () => tab('nav');
-  function tab(w) { w = w === true ? 'ex' : w === false ? 'val' : w; $('explore').hidden = w !== 'ex'; $('navigator').hidden = w !== 'nav'; $('validation').hidden = w !== 'val';
-    [['tabExplore', 'ex'], ['tabNav', 'nav'], ['tabValid', 'val']].forEach(([id, k]) => $(id).classList.toggle('active', w === k)); app.dirty = true; }
+  $('tabNav').onclick = () => tab('nav'); $('tabPlan').onclick = () => { tab('plan'); if (planner) planner.show(); };
+  let planner;
+  function tab(w) { w = w === true ? 'ex' : w === false ? 'val' : w; $('explore').hidden = w !== 'ex'; $('navigator').hidden = w !== 'nav'; $('planner').hidden = w !== 'plan'; $('validation').hidden = w !== 'val';
+    [['tabExplore', 'ex'], ['tabNav', 'nav'], ['tabPlan', 'plan'], ['tabValid', 'val']].forEach(([id, k]) => $(id).classList.toggle('active', w === k)); app.dirty = true; }
   let loaded;
   try { loaded = await loadSites(fetchFn); } catch (e) {
     $('loadMsg').textContent = ''; $('views').innerHTML = '<p class="empty">No data available. ' + String(e.message).replace(/</g, '&lt;') + '</p>';
@@ -311,6 +313,7 @@ async function main() {
   renderValidation(await loadOptional(fetchFn, app.base, 'validation.json'));
   renderBand(await loadOptional(fetchFn, app.base, 'validation_band.json'));
   initNavigator({ sites: app.sites, base: app.base, siteData });
+  planner = initPlanner({ sites: app.sites, siteData });
   const sonic = new Sonifier();
   app.sonic = sonic;
   $('sonify').onclick = () => {

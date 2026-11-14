@@ -14,6 +14,7 @@
   <nav>
     <button id="tabExplore" class="tab active" type="button">Explorer</button>
     <button id="tabNav" class="tab" type="button">Navigator</button>
+    <button id="tabPlan" class="tab" type="button">Planner</button>
     <button id="tabValid" class="tab" type="button">Validation</button>
   </nav>
 </header>
@@ -53,6 +54,23 @@
   <canvas id="navMap" class="navmap" width="512" height="512" aria-label="Terrain map, click to add a point"></canvas>
   <p class="note"><strong>Horizon range:</strong> the three site rows are computed with rays out to 30 km on a 64 km LOLA window. Going from 10.24 to 30 km lowered the Shackleton Sun fraction from 88.7% to 86.0% and lengthened its longest dark spell from 102 h to 147 h. Points you click in the navigator still use the 20 km window (10 km rays), so their Sun hours are an upper bound for rim points with far ridges. Terrain beyond 30 km is not modelled.</p>
   <div id="navBody"></div>
+</main>
+
+<main id="planner" hidden>
+  <h2>Landing window planner</h2>
+  <p class="note">For every possible landing day of 2027, the 14 days after landing (about one lunar daylight period) are scored from this site's hourly Sun and Earth visibility. <strong>Score = min(Sun fraction, Earth fraction)</strong>: the weaker of power and direct-to-Earth line of sight; no other weighting is applied. The top 5 are non-overlapping windows (start days at least 14 days apart), ties broken by the shorter longest dark spell. Late-December days are grey because 14 days would run past the end of the 2027 data. All values come from one year of data (2027) and carry the +-10 point uncertainty described on the Validation tab (docs/validation.md); read small differences between dates or sites as ties.</p>
+  <div class="controls"><select id="plSite" aria-label="Site"></select> <span id="plMsg" class="muted"></span></div>
+  <canvas id="plHeat" class="planheat" width="730" height="60" aria-label="Calendar heat map: top row Sun, bottom row Earth, one column per landing day; click to choose a landing date"></canvas>
+  <p class="note">Top row: Sun fraction in the 14 days after landing on that day. Bottom row: Earth fraction. Brighter is more visible. Click a day to use it as the planned landing date.</p>
+  <h3>Best 5 windows</h3>
+  <table id="plTop"></table>
+  <h2>Delay scenario</h2>
+  <div class="controls">
+    <label>Planned landing <input type="date" id="plDate"></label>
+    <label>Delay <input type="range" id="plDelay" min="1" max="30" value="7"> <output id="plDelayN">+7 d</output></label>
+  </div>
+  <div id="plDelayBody"></div>
+  <p class="note">Same score as above. If the planned date slips, this compares the same site and the other two sites on the delayed date and marks the highest score. It only compares these three sites and these start days; it does not model fuel, trajectory or mission constraints.</p>
 </main>
 
 <main id="validation" hidden>

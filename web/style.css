@@ -58,3 +58,7 @@ h3 { font-size:15px; margin:18px 0 6px; }
 .vhead select, #navigator select { max-width:100%; min-width:0; }
 #tourMsg { flex:1 1 260px; }
 @media (max-width:760px) { .vhead select { flex:1 1 100%; } .controls { gap:8px; } #navigator input { width:100%; } }
+
+.planheat { width:100%; max-width:960px; height:60px; background:#000; border-radius:6px; cursor:pointer; display:block; margin:8px 0; }
+#plTop tr[data-day] { cursor:pointer; }
+tr.best td { background:#16301f; }

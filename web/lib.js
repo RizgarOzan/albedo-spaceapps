@@ -219,3 +219,38 @@ export function toCsv(rows, cols) {
   const q = v => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
   return [cols.map(c => q(c.label)).join(','), ...rows.map(r => cols.map(c => q(c.get(r))).join(','))].join('\n') + '\n';
 }
+
+// ---- Landing window planner: stats for the WINDOW_DAYS after each possible landing day ----
+export const WINDOW_DAYS = 14; // one lunar daylight period is about 14.8 days
+// Combined power + comms score: the weaker of the two fractions (a site is only as good as its worse side).
+export const windowScore = w => Math.min(w.sun, w.earth);
+// One entry per UTC day of the series: Sun/Earth fraction and longest dark / no-Earth spell over the next `days` days.
+// null when the window would run past the end of the data (no extrapolation).
+export function landingWindows(sunSeries, earthSeries, stepMin, days = WINDOW_DAYS) {
+  const per = 1440 / stepMin, len = days * per, n = sunSeries.length, h = stepMin / 60;
+  return Array.from({ length: Math.floor(n / per) }, (_, day) => {
+    const a = day * per, b = a + len;
+    if (b > n) return null;
+    let s = 0, e = 0, ds = 0, de = 0, ms = 0, me = 0;
+    for (let i = a; i < b; i++) {
+      s += sunSeries[i]; e += earthSeries[i];
+      ds = sunSeries[i] ? 0 : ds + 1; de = earthSeries[i] ? 0 : de + 1;
+      if (ds > ms) ms = ds; if (de > me) me = de;
+    }
+    const w = { day, sun: s / len, earth: e / len, darkH: ms * h, noEarthH: me * h };
+    w.score = windowScore(w);
+    return w;
+  });
+}
+// Best k windows by score, non-overlapping (start days at least `days` apart); ties go to the shorter dark spell, then the earlier day.
+export function topWindows(wins, k = 5, days = WINDOW_DAYS) {
+  const order = wins.filter(Boolean).sort((a, b) => b.score - a.score || a.darkH - b.darkH || a.day - b.day), out = [];
+  for (const w of order) { if (out.every(o => Math.abs(o.day - w.day) >= days)) out.push(w); if (out.length === k) break; }
+  return out;
+}
+// Slip the landing by delayDays: every site's window on the delayed day, best score flagged (planned = the original day at siteId).
+export function delayScenario(winsBySite, siteId, day, delayDays) {
+  const rows = Object.entries(winsBySite).map(([id, wins]) => ({ id, w: wins[day + delayDays] || null }));
+  const ok = rows.filter(r => r.w), best = ok.length ? ok.reduce((a, b) => b.w.score > a.w.score ? b : a) : null;
+  return { planned: (winsBySite[siteId] || [])[day] || null, delayed: rows, bestId: best ? best.id : null };
+}
