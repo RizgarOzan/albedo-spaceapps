@@ -1,23 +1,23 @@
 {
  "shackleton": {
-  "illumination_fraction": 0.9221,
+  "illumination_fraction": 0.8874,
   "longest_dark_hours": 102.0,
   "earth_visible_fraction": 0.4586,
   "longest_no_earth_hours": 354.0,
-  "mean_sun_el_when_up": 0.156
+  "mean_sun_el_when_up": 0.173
  },
  "nobile": {
-  "illumination_fraction": 0.9104,
+  "illumination_fraction": 0.8962,
   "longest_dark_hours": 138.0,
   "earth_visible_fraction": 0.5914,
   "longest_no_earth_hours": 273.0,
-  "mean_sun_el_when_up": 0.275
+  "mean_sun_el_when_up": 0.373
  },
  "malapert": {
-  "illumination_fraction": 0.6476,
+  "illumination_fraction": 0.646,
   "longest_dark_hours": 341.0,
   "earth_visible_fraction": 0.795,
   "longest_no_earth_hours": 143.0,
-  "mean_sun_el_when_up": 1.747
+  "mean_sun_el_when_up": 1.755
  }
 }
