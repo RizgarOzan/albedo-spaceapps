@@ -80,7 +80,7 @@ def horizon(dem, m_per_px, obs_h=2.0):
     n = dem.shape[0]
     cy = cx = n / 2 - 0.5
     z0 = bilinear(dem, np.array(cy), np.array(cx)) + obs_h
-    d = np.arange(1, n // 2) * m_per_px * 0.5
+    d = np.arange(1, n + 1) * m_per_px * 0.5  # steps of half a pixel out to the DEM edge (n*mpp/2)
     out = np.empty(360)
     for az in range(360):
         a = np.radians(az)
