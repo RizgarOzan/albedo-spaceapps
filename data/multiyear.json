@@ -1,0 +1,95 @@
+{
+ "note": "Hourly Horizons ephemerides, 365 d from Jan 1 of each year, 2 m observer, 10.24 km rays, Sun disc centre, same 512x512 40 m DEM windows. 2027 is the existing ephemeris. spread_pts = (max - min over the three years) * 100 for the fractions; spread_h for the longest spells.",
+ "sites": {
+  "shackleton": {
+   "years": {
+    "2026": {
+     "sun_frac": 0.8892,
+     "earth_frac": 0.48,
+     "longest_dark_h": 102,
+     "longest_no_earth_h": 351
+    },
+    "2027": {
+     "sun_frac": 0.8874,
+     "earth_frac": 0.4586,
+     "longest_dark_h": 102,
+     "longest_no_earth_h": 354
+    },
+    "2028": {
+     "sun_frac": 0.8916,
+     "earth_frac": 0.5395,
+     "longest_dark_h": 102,
+     "longest_no_earth_h": 339
+    }
+   },
+   "spread_pts": {
+    "sun": 0.42,
+    "earth": 8.09
+   },
+   "spread_h": {
+    "longest_dark": 0,
+    "longest_no_earth": 15
+   }
+  },
+  "nobile": {
+   "years": {
+    "2026": {
+     "sun_frac": 0.8959,
+     "earth_frac": 0.5715,
+     "longest_dark_h": 133,
+     "longest_no_earth_h": 286
+    },
+    "2027": {
+     "sun_frac": 0.8962,
+     "earth_frac": 0.5914,
+     "longest_dark_h": 138,
+     "longest_no_earth_h": 273
+    },
+    "2028": {
+     "sun_frac": 0.8941,
+     "earth_frac": 0.6394,
+     "longest_dark_h": 138,
+     "longest_no_earth_h": 252
+    }
+   },
+   "spread_pts": {
+    "sun": 0.21,
+    "earth": 6.79
+   },
+   "spread_h": {
+    "longest_dark": 5,
+    "longest_no_earth": 34
+   }
+  },
+  "malapert": {
+   "years": {
+    "2026": {
+     "sun_frac": 0.6693,
+     "earth_frac": 0.7989,
+     "longest_dark_h": 340,
+     "longest_no_earth_h": 144
+    },
+    "2027": {
+     "sun_frac": 0.646,
+     "earth_frac": 0.795,
+     "longest_dark_h": 341,
+     "longest_no_earth_h": 143
+    },
+    "2028": {
+     "sun_frac": 0.6629,
+     "earth_frac": 0.8299,
+     "longest_dark_h": 341,
+     "longest_no_earth_h": 132
+    }
+   },
+   "spread_pts": {
+    "sun": 2.33,
+    "earth": 3.49
+   },
+   "spread_h": {
+    "longest_dark": 1,
+    "longest_no_earth": 12
+   }
+  }
+ }
+}

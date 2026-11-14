@@ -73,4 +73,16 @@ What it says:
 - Shackleton is not converged. The Sun fraction still fell 0.897 to 0.887 between 7.5 and 10.24 km, and from 2.5 to 10.24 km it fell 0.054; the horizon at some azimuths rose by 2.9 deg between 7.5 and 10.24 km. Terrain farther than 10.24 km (Connecting Ridge, de Gerlache rim) would likely lower it further. This is the objection in the jury feedback, and we cannot quantify it without a larger DEM window. Not measured.
 - Longest dark spell and Earth fraction did not change with range at the three sites (Shackleton longest no-Earth spell 345 h at 2.5 km, 354 h from 5 km on).
 - Observer height matters far more than range: 0 to 2 m moves the Sun fraction by 0.16 to 0.43 and 2 to 5 m by 0.04 to 0.10 (see the earlier caveat on 0 m vs 2 m). Longest dark spell at Shackleton: 539 h at 0 m, 102 h at 2 m, 74 h at 5 m.
-- Still one year (2027) and one model; a second year or an independent horizon code was not run (not measured).
+- Still one model; an independent horizon code was not run (not measured). Other years were run, see the next section.
+
+## Three-year check (2026, 2027, 2028)
+
+`scripts/multiyear.py` repeats the 2 m, 10.24 km run with hourly Horizons ephemerides for each year (same DEM windows, Sun disc centre, Earth centre). Output: `data/multiyear.json`.
+
+| Site | Sun fraction 2026 / 2027 / 2028 | Earth fraction 2026 / 2027 / 2028 | Longest dark spell (h) 2026 / 2027 / 2028 |
+|---|---|---|---|
+| Shackleton rim | 0.889 / 0.887 / 0.892 | 0.480 / 0.459 / 0.540 | 102 / 102 / 102 |
+| Nobile rim | 0.896 / 0.896 / 0.894 | 0.572 / 0.591 / 0.639 | 133 / 138 / 138 |
+| Malapert summit | 0.669 / 0.646 / 0.663 | 0.799 / 0.795 / 0.830 | 340 / 341 / 341 |
+
+Spread between the three years: Sun 0.2 to 2.3 points, Earth 3.5 to 8.1 points (Earth moves most because libration changes from year to year). So the single-year 2027 Sun values are stable to a few points across 2026 to 2028, which makes a year-count mismatch an unlikely main cause of the 2 to 8 point Sun differences to NASA's map. This is three years, not the 18.6-year nutation cycle, and the range limit of 10.24 km is unchanged (no DEM beyond it, not measured).
