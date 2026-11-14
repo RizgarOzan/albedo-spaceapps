@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lunar import ROOT
 from build_data import visible, N_STEPS
 from sensitivity import horizon_r, metrics
+from extend_range import big_dem
 
 D = os.path.join(ROOT, "data")
 CACHE = os.path.join(D, "cache")
@@ -60,13 +61,12 @@ def eph_for(s, year):
 
 
 def main():
-    out = dict(note="Hourly Horizons ephemerides, 365 d from Jan 1 of each year, 2 m observer, 10.24 km rays, Sun disc centre, "
+    out = dict(note="Hourly Horizons ephemerides, 365 d from Jan 1 of each year, 2 m observer, 30 km rays, Sun disc centre, "
                     "same 512x512 40 m DEM windows. 2027 is the existing ephemeris. spread_pts = (max - min over the three "
                     "years) * 100 for the fractions; spread_h for the longest spells.", sites={})
     for s in json.load(open(os.path.join(D, "sites.json"))):
-        n = s["dem_size_px"]
-        dem = np.fromfile(os.path.join(D, s["dem_file"]), "<f4").reshape(n, n)
-        hor = horizon_r(dem, s["meters_per_px"], 2.0, 10240)
+        dem = big_dem(s)
+        hor = horizon_r(dem, s["meters_per_px"], 2.0, 30000)
         years = {}
         for y in YEARS:
             m = metrics(eph_for(s, y), hor)

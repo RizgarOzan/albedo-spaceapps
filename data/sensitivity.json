@@ -1,5 +1,5 @@
 {
- "note": "2027 hourly ephemeris (1 h steps), Sun disc centre, existing 512x512 40 m DEM windows. Range = max ray length; full window = 10.24 km. Differences are vs the 10.24 km run.",
+ "note": "2027 hourly ephemeris (1 h steps), Sun disc centre, 1600x1600 40 m DEM windows (64 km). Range = max ray length; largest range = 30 km. Differences are vs the 30 km run.",
  "sites": {
   "shackleton": {
    "by_range_2m": {
@@ -12,8 +12,8 @@
      "longest_no_earth_h": 345,
      "horizon_mean_deg": -3.612,
      "horizon_max_deg": -0.047,
-     "max_horizon_change_vs_full_deg": 4.518,
-     "azimuths_changed_over_0.1deg": 95
+     "max_horizon_change_vs_full_deg": 6.367,
+     "azimuths_changed_over_0.1deg": 215
     },
     "5.0": {
      "sun_frac": 0.9263,
@@ -24,8 +24,8 @@
      "longest_no_earth_h": 354,
      "horizon_mean_deg": -3.36,
      "horizon_max_deg": 0.094,
-     "max_horizon_change_vs_full_deg": 2.966,
-     "azimuths_changed_over_0.1deg": 81
+     "max_horizon_change_vs_full_deg": 6.367,
+     "azimuths_changed_over_0.1deg": 201
     },
     "7.5": {
      "sun_frac": 0.897,
@@ -36,8 +36,8 @@
      "longest_no_earth_h": 354,
      "horizon_mean_deg": -3.18,
      "horizon_max_deg": 1.125,
-     "max_horizon_change_vs_full_deg": 2.855,
-     "azimuths_changed_over_0.1deg": 66
+     "max_horizon_change_vs_full_deg": 6.367,
+     "azimuths_changed_over_0.1deg": 187
     },
     "10.24": {
      "sun_frac": 0.8874,
@@ -48,39 +48,63 @@
      "longest_no_earth_h": 354,
      "horizon_mean_deg": -3.035,
      "horizon_max_deg": 1.325,
+     "max_horizon_change_vs_full_deg": 6.367,
+     "azimuths_changed_over_0.1deg": 133
+    },
+    "20.0": {
+     "sun_frac": 0.8699,
+     "sun_visible_h": 7620,
+     "longest_dark_h": 102,
+     "earth_frac": 0.4586,
+     "earth_visible_h": 4017,
+     "longest_no_earth_h": 354,
+     "horizon_mean_deg": -1.723,
+     "horizon_max_deg": 1.325,
+     "max_horizon_change_vs_full_deg": 1.94,
+     "azimuths_changed_over_0.1deg": 72
+    },
+    "30.0": {
+     "sun_frac": 0.86,
+     "sun_visible_h": 7534,
+     "longest_dark_h": 147,
+     "earth_frac": 0.4586,
+     "earth_visible_h": 4017,
+     "longest_no_earth_h": 354,
+     "horizon_mean_deg": -1.54,
+     "horizon_max_deg": 1.325,
      "max_horizon_change_vs_full_deg": 0.0,
      "azimuths_changed_over_0.1deg": 0
     }
    },
    "by_height_10km": {
     "0": {
-     "sun_frac": 0.4573,
-     "sun_visible_h": 4006,
+     "sun_frac": 0.4501,
+     "sun_visible_h": 3943,
      "longest_dark_h": 539,
      "earth_frac": 0.4567,
      "earth_visible_h": 4001,
      "longest_no_earth_h": 354,
-     "horizon_mean_deg": 0.022,
+     "horizon_mean_deg": 0.163,
      "horizon_max_deg": 1.837
     },
     "2": {
-     "sun_frac": 0.8874,
-     "sun_visible_h": 7774,
-     "longest_dark_h": 102,
+     "sun_frac": 0.86,
+     "sun_visible_h": 7534,
+     "longest_dark_h": 147,
      "earth_frac": 0.4586,
      "earth_visible_h": 4017,
      "longest_no_earth_h": 354,
-     "horizon_mean_deg": -3.035,
+     "horizon_mean_deg": -1.54,
      "horizon_max_deg": 1.325
     },
     "5": {
-     "sun_frac": 0.9291,
-     "sun_visible_h": 8139,
+     "sun_frac": 0.9011,
+     "sun_visible_h": 7894,
      "longest_dark_h": 74,
      "earth_frac": 0.4613,
      "earth_visible_h": 4041,
      "longest_no_earth_h": 351,
-     "horizon_mean_deg": -4.535,
+     "horizon_mean_deg": -2.207,
      "horizon_max_deg": 1.305
     }
    }
@@ -97,7 +121,7 @@
      "horizon_mean_deg": -3.128,
      "horizon_max_deg": 1.85,
      "max_horizon_change_vs_full_deg": 2.338,
-     "azimuths_changed_over_0.1deg": 22
+     "azimuths_changed_over_0.1deg": 57
     },
     "5.0": {
      "sun_frac": 0.9104,
@@ -109,7 +133,7 @@
      "horizon_mean_deg": -3.128,
      "horizon_max_deg": 1.85,
      "max_horizon_change_vs_full_deg": 2.338,
-     "azimuths_changed_over_0.1deg": 22
+     "azimuths_changed_over_0.1deg": 57
     },
     "7.5": {
      "sun_frac": 0.8971,
@@ -120,8 +144,8 @@
      "longest_no_earth_h": 273,
      "horizon_mean_deg": -3.04,
      "horizon_max_deg": 1.85,
-     "max_horizon_change_vs_full_deg": 0.177,
-     "azimuths_changed_over_0.1deg": 6
+     "max_horizon_change_vs_full_deg": 2.12,
+     "azimuths_changed_over_0.1deg": 43
     },
     "10.24": {
      "sun_frac": 0.8962,
@@ -131,6 +155,30 @@
      "earth_visible_h": 5181,
      "longest_no_earth_h": 273,
      "horizon_mean_deg": -3.037,
+     "horizon_max_deg": 1.85,
+     "max_horizon_change_vs_full_deg": 2.12,
+     "azimuths_changed_over_0.1deg": 37
+    },
+    "20.0": {
+     "sun_frac": 0.8797,
+     "sun_visible_h": 7706,
+     "longest_dark_h": 151,
+     "earth_frac": 0.5914,
+     "earth_visible_h": 5181,
+     "longest_no_earth_h": 273,
+     "horizon_mean_deg": -2.97,
+     "horizon_max_deg": 1.85,
+     "max_horizon_change_vs_full_deg": 2.105,
+     "azimuths_changed_over_0.1deg": 17
+    },
+    "30.0": {
+     "sun_frac": 0.8797,
+     "sun_visible_h": 7706,
+     "longest_dark_h": 151,
+     "earth_frac": 0.5914,
+     "earth_visible_h": 5181,
+     "longest_no_earth_h": 273,
+     "horizon_mean_deg": -2.914,
      "horizon_max_deg": 1.85,
      "max_horizon_change_vs_full_deg": 0.0,
      "azimuths_changed_over_0.1deg": 0
@@ -144,27 +192,27 @@
      "earth_frac": 0.4234,
      "earth_visible_h": 3709,
      "longest_no_earth_h": 378,
-     "horizon_mean_deg": 0.011,
+     "horizon_mean_deg": 0.012,
      "horizon_max_deg": 5.219
     },
     "2": {
-     "sun_frac": 0.8962,
-     "sun_visible_h": 7851,
-     "longest_dark_h": 138,
+     "sun_frac": 0.8797,
+     "sun_visible_h": 7706,
+     "longest_dark_h": 151,
      "earth_frac": 0.5914,
      "earth_visible_h": 5181,
      "longest_no_earth_h": 273,
-     "horizon_mean_deg": -3.037,
+     "horizon_mean_deg": -2.914,
      "horizon_max_deg": 1.85
     },
     "5": {
-     "sun_frac": 0.9439,
-     "sun_visible_h": 8269,
-     "longest_dark_h": 96,
+     "sun_frac": 0.9211,
+     "sun_visible_h": 8069,
+     "longest_dark_h": 130,
      "earth_frac": 0.6249,
      "earth_visible_h": 5474,
      "longest_no_earth_h": 255,
-     "horizon_mean_deg": -4.034,
+     "horizon_mean_deg": -3.831,
      "horizon_max_deg": 1.159
     }
    }
@@ -180,8 +228,8 @@
      "longest_no_earth_h": 143,
      "horizon_mean_deg": -1.89,
      "horizon_max_deg": -0.905,
-     "max_horizon_change_vs_full_deg": 1.109,
-     "azimuths_changed_over_0.1deg": 11
+     "max_horizon_change_vs_full_deg": 1.147,
+     "azimuths_changed_over_0.1deg": 12
     },
     "5.0": {
      "sun_frac": 0.6476,
@@ -192,8 +240,8 @@
      "longest_no_earth_h": 143,
      "horizon_mean_deg": -1.889,
      "horizon_max_deg": -0.905,
-     "max_horizon_change_vs_full_deg": 1.109,
-     "azimuths_changed_over_0.1deg": 11
+     "max_horizon_change_vs_full_deg": 1.147,
+     "azimuths_changed_over_0.1deg": 12
     },
     "7.5": {
      "sun_frac": 0.6476,
@@ -204,8 +252,8 @@
      "longest_no_earth_h": 143,
      "horizon_mean_deg": -1.888,
      "horizon_max_deg": -0.905,
-     "max_horizon_change_vs_full_deg": 1.109,
-     "azimuths_changed_over_0.1deg": 11
+     "max_horizon_change_vs_full_deg": 1.147,
+     "azimuths_changed_over_0.1deg": 12
     },
     "10.24": {
      "sun_frac": 0.646,
@@ -215,6 +263,30 @@
      "earth_visible_h": 6964,
      "longest_no_earth_h": 143,
      "horizon_mean_deg": -1.865,
+     "horizon_max_deg": -0.905,
+     "max_horizon_change_vs_full_deg": 0.217,
+     "azimuths_changed_over_0.1deg": 3
+    },
+    "20.0": {
+     "sun_frac": 0.6458,
+     "sun_visible_h": 5657,
+     "longest_dark_h": 341,
+     "earth_frac": 0.795,
+     "earth_visible_h": 6964,
+     "longest_no_earth_h": 143,
+     "horizon_mean_deg": -1.863,
+     "horizon_max_deg": -0.905,
+     "max_horizon_change_vs_full_deg": 0.0,
+     "azimuths_changed_over_0.1deg": 0
+    },
+    "30.0": {
+     "sun_frac": 0.6458,
+     "sun_visible_h": 5657,
+     "longest_dark_h": 341,
+     "earth_frac": 0.795,
+     "earth_visible_h": 6964,
+     "longest_no_earth_h": 143,
+     "horizon_mean_deg": -1.863,
      "horizon_max_deg": -0.905,
      "max_horizon_change_vs_full_deg": 0.0,
      "azimuths_changed_over_0.1deg": 0
@@ -232,23 +304,23 @@
      "horizon_max_deg": 0.885
     },
     "2": {
-     "sun_frac": 0.646,
-     "sun_visible_h": 5659,
+     "sun_frac": 0.6458,
+     "sun_visible_h": 5657,
      "longest_dark_h": 341,
      "earth_frac": 0.795,
      "earth_visible_h": 6964,
      "longest_no_earth_h": 143,
-     "horizon_mean_deg": -1.865,
+     "horizon_mean_deg": -1.863,
      "horizon_max_deg": -0.905
     },
     "5": {
-     "sun_frac": 0.7481,
-     "sun_visible_h": 6553,
+     "sun_frac": 0.7479,
+     "sun_visible_h": 6552,
      "longest_dark_h": 310,
      "earth_frac": 0.8247,
      "earth_visible_h": 7224,
      "longest_no_earth_h": 125,
-     "horizon_mean_deg": -2.435,
+     "horizon_mean_deg": -2.431,
      "horizon_max_deg": -1.017
     }
    }

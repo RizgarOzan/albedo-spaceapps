@@ -1,14 +1,15 @@
 """Sensitivity of the horizon and the 2027 Sun/Earth results to ray-march range and observer height.
-Uses only the DEM windows and ephemerides already in data/ (no downloads).
+Uses the 64 km DEM window (extend_range.big_dem) and the ephemerides in data/.
 Usage: python scripts/sensitivity.py   -> data/sensitivity.json"""
 import json, os, sys
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lunar import bilinear, R, ROOT
 from build_data import visible, longest_run
+from extend_range import big_dem
 
 D = os.path.join(ROOT, "data")
-RANGES_KM = (2.5, 5.0, 7.5, 10.24)
+RANGES_KM = (2.5, 5.0, 7.5, 10.24, 20.0, 30.0)
 HEIGHTS = (0.0, 2.0, 5.0)
 
 
@@ -36,11 +37,11 @@ def metrics(e, hor):
 
 
 def main():
-    out = dict(note="2027 hourly ephemeris (1 h steps), Sun disc centre, existing 512x512 40 m DEM windows. "
-                    "Range = max ray length; full window = 10.24 km. Differences are vs the 10.24 km run.", sites={})
+    out = dict(note="2027 hourly ephemeris (1 h steps), Sun disc centre, 1600x1600 40 m DEM windows (64 km). "
+                    "Range = max ray length; largest range = 30 km. Differences are vs the 30 km run.", sites={})
     for s in json.load(open(os.path.join(D, "sites.json"))):
-        n, mpp = s["dem_size_px"], s["meters_per_px"]
-        dem = np.fromfile(os.path.join(D, s["dem_file"]), "<f4").reshape(n, n)
+        mpp = s["meters_per_px"]
+        dem = big_dem(s)
         e = json.load(open(os.path.join(D, "ephemeris", s["id"] + ".json")))
         rec = dict(by_range_2m={}, by_height_10km={})
         full = horizon_r(dem, mpp, 2.0, RANGES_KM[-1] * 1000)

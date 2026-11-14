@@ -46,12 +46,14 @@ def main():
                 **err(summ[sid][mk], pub)))
     # sensitivity: published products count the Sun as lit if ANY fraction of the disc is visible, at 0 m height
     from build_data import visible, longest_run
+    from sensitivity import horizon_r
     out["sensitivity"] = []
     for sid, st in sites.items():
-        dem = np.fromfile(os.path.join(D, st["dem_file"]), "<f4").reshape(st["dem_size_px"], -1)
+        from extend_range import big_dem
+        dem = big_dem(st)
         e = json.load(open(os.path.join(D, "ephemeris", sid + ".json")))
         for h in (2.0, 0.0):
-            hor = horizon(dem, st["meters_per_px"], h)
+            hor = horizon_r(dem, st["meters_per_px"], h, 30000)
             for limb in (0.0, 0.2667):
                 v = visible(e["sun_az"], np.array(e["sun_el"]) + limb, hor)
                 out["sensitivity"].append(dict(site=sid, observer_h_m=h, sun_limb_deg=limb,

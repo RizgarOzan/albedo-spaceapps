@@ -8,12 +8,12 @@
   {
    "site": "shackleton",
    "quantity": "illumination_fraction",
-   "modelled": 0.8874,
+   "modelled": 0.86,
    "published_at_poi": 0.8681,
    "published_300m_patch_min": 0.3794,
    "published_300m_patch_max": 0.8706,
-   "abs_err": 0.0193,
-   "rel_err_pct": 2.2
+   "abs_err": -0.0081,
+   "rel_err_pct": -0.9
   },
   {
    "site": "shackleton",
@@ -28,12 +28,12 @@
   {
    "site": "nobile",
    "quantity": "illumination_fraction",
-   "modelled": 0.8962,
+   "modelled": 0.8797,
    "published_at_poi": 0.8292,
    "published_300m_patch_min": 0.3192,
    "published_300m_patch_max": 0.8315,
-   "abs_err": 0.067,
-   "rel_err_pct": 8.1
+   "abs_err": 0.0505,
+   "rel_err_pct": 6.1
   },
   {
    "site": "nobile",
@@ -48,11 +48,11 @@
   {
    "site": "malapert",
    "quantity": "illumination_fraction",
-   "modelled": 0.646,
+   "modelled": 0.6458,
    "published_at_poi": 0.5664,
    "published_300m_patch_min": 0.4223,
    "published_300m_patch_max": 0.7029,
-   "abs_err": 0.0796,
+   "abs_err": 0.0794,
    "rel_err_pct": 14.0
   },
   {
@@ -72,9 +72,9 @@
    "url": "https://ntrs.nasa.gov/citations/20120010094",
    "site": "shackleton",
    "published_longest_dark_hours": 36.0,
-   "modelled_longest_dark_hours": 102.0,
-   "abs_err": 66.0,
-   "rel_err_pct": 183.3,
+   "modelled_longest_dark_hours": 147.0,
+   "abs_err": 111.0,
+   "rel_err_pct": 308.3,
    "caveat": "Published value is for the single best rim location over 18.6 yr, 0 m height; ours is a specific rim pixel, 2 m observer, 2027 only."
   }
  ],
@@ -83,43 +83,43 @@
    "site": "shackleton",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.8874,
-   "longest_dark_hours": 102.0
+   "illumination_fraction": 0.86,
+   "longest_dark_hours": 147.0
   },
   {
    "site": "shackleton",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.9107,
+   "illumination_fraction": 0.8943,
    "longest_dark_hours": 83.0
   },
   {
    "site": "shackleton",
    "observer_h_m": 0.0,
    "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.4573,
+   "illumination_fraction": 0.4501,
    "longest_dark_hours": 539.0
   },
   {
    "site": "shackleton",
    "observer_h_m": 0.0,
    "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.5318,
+   "illumination_fraction": 0.5288,
    "longest_dark_hours": 521.0
   },
   {
    "site": "nobile",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.8962,
-   "longest_dark_hours": 138.0
+   "illumination_fraction": 0.8797,
+   "longest_dark_hours": 151.0
   },
   {
    "site": "nobile",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.2667,
-   "illumination_fraction": 0.9233,
-   "longest_dark_hours": 114.0
+   "illumination_fraction": 0.907,
+   "longest_dark_hours": 142.0
   },
   {
    "site": "nobile",
@@ -139,7 +139,7 @@
    "site": "malapert",
    "observer_h_m": 2.0,
    "sun_limb_deg": 0.0,
-   "illumination_fraction": 0.646,
+   "illumination_fraction": 0.6458,
    "longest_dark_hours": 341.0
   },
   {

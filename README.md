@@ -18,7 +18,7 @@ Lunar Light Clock shows when the Sun and the Earth are above the horizon at cand
 
 A Python pipeline reads a 20 km window of the DEM around each site, ray-marches a 360 degree horizon, and compares it with the hourly Sun and Earth azimuth and elevation from Horizons. The viewer is static three.js, no server.
 
-Known limits, stated openly: the horizon only reaches 10 km, one year is compared with an 18.6-year NASA average, and results should be read as plus or minus 10 points. Numbers and caveats are in [docs/validation.md](docs/validation.md).
+Known limits, stated openly: the horizon only reaches 30 km, one year is compared with an 18.6-year NASA average, and results should be read as plus or minus 10 points. Numbers and caveats are in [docs/validation.md](docs/validation.md).
 
 ## Run it
 

@@ -82,16 +82,18 @@ const real = id => {
   const b = readFileSync(join(d, 'dem', id + '.bin'));
   return { site: rd('sites.json').find(s => s.id === id), dem: new Float32Array(b.buffer, b.byteOffset, b.length / 4), eph: rd(`ephemeris/${id}.json`), hor: rd(`horizon/${id}.json`).horizon_deg, sum: rd('summary.json')[id] };
 };
-test('horizonFromDem at the centre reproduces the shipped horizon and summary', () => {
+test('horizonFromDem at the centre reproduces the 10 km model run (sensitivity.json) and stays near the 30 km shipped summary', () => {
+  // The navigator only has the 20 km window (10 km rays); the shipped site horizon/summary use 30 km rays (scripts/extend_range.py).
+  const sens = JSON.parse(readFileSync(join(root, '..', 'data', 'sensitivity.json'), 'utf8')).sites;
   for (const id of ['shackleton', 'nobile', 'malapert']) {
-    const r = real(id), c = r.site.dem_size_px / 2 - 0.5;
+    const r = real(id), c = r.site.dem_size_px / 2 - 0.5, ref = sens[id].by_range_2m['10.24'];
     const h = L.horizonFromDem(r.dem, r.site.dem_size_px, r.site.meters_per_px, c, c, 2);
-    let worst = 0; for (let a = 0; a < 360; a++) worst = Math.max(worst, Math.abs(h[a] - r.hor[a]));
-    assert.ok(worst < 0.25, id + ' worst horizon diff ' + worst);
     const s = L.seriesStats(r.eph, h);
-    assert.ok(Math.abs(s.sun - r.sum.illumination_fraction) < 2e-3, id + ' sun ' + s.sun);
-    assert.ok(Math.abs(s.earth - r.sum.earth_visible_fraction) < 2e-3);
-    assert.equal(s.darkH, r.sum.longest_dark_hours);
+    assert.ok(Math.abs(s.sun - ref.sun_frac) < 2e-3, id + ' sun ' + s.sun);
+    assert.ok(Math.abs(s.earth - ref.earth_frac) < 2e-3);
+    assert.equal(s.darkH, ref.longest_dark_h);
+    assert.ok(Math.abs(s.sun - r.sum.illumination_fraction) < 0.03, id + ' 10 km vs 30 km sun gap');
+    assert.ok(Math.abs(Math.max(...h) - Math.max(...r.hor)) < 7, id + ' max horizon gap');
   }
 });
 test('latLon <-> pixel round trip and centre', () => {

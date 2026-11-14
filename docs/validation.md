@@ -8,26 +8,26 @@ NASA/LOLA-team published maps of average Sun and Earth visibility at the south p
 
 We could not read the Mazarico et al. site tables (Table 3): the paper is paywalled and no open copy was found, so no per-site percentages from the paper are quoted. The only number we cite from the paper is in its abstract (NTRS https://ntrs.nasa.gov/citations/20120010094): a point near the Shackleton rim is sunlit continuously for about 240 days, longest total darkness about 1.5 days. We did not find NASA's published Artemis III region tables with Earth/Sun percentages either.
 
-## Results (our model: 2027-01-01 + 365 d, Horizons, 2 m observer, Sun disc centre; published: 18.6 yr, 0 m, any part of disc)
+## Results (our model: 2027-01-01 + 365 d, Horizons, 2 m observer, 30 km rays, Sun disc centre; published: 18.6 yr, 0 m, any part of disc)
 
 | Site | Quantity | Ours | Published at POI | Published 300 m patch min..max | Abs err | Rel err |
 |---|---|---|---|---|---|---|
-| Shackleton rim | Sun | 0.887 | 0.868 | 0.379..0.871 | +0.019 | +2.2% |
+| Shackleton rim | Sun | 0.860 | 0.868 | 0.379..0.871 | -0.008 | -0.9% |
 | Shackleton rim | Earth | 0.459 | 0.536 | 0.015..0.538 | -0.078 | -14.5% |
-| Nobile rim | Sun | 0.896 | 0.829 | 0.319..0.832 | +0.067 | +8.1% |
+| Nobile rim | Sun | 0.880 | 0.829 | 0.319..0.832 | +0.051 | +6.1% |
 | Nobile rim | Earth | 0.591 | 0.598 | 0.324..0.689 | -0.006 | -1.1% |
 | Malapert summit | Sun | 0.646 | 0.566 | 0.422..0.703 | +0.080 | +14.0% |
 | Malapert summit | Earth | 0.795 | 0.845 | 0.652..0.925 | -0.050 | -5.9% |
 
-Literature check: longest continuous darkness at Shackleton rim, ours 102 h vs about 36 h (1.5 d) in the Mazarico abstract, +66 h. That figure is for the single best location in the whole region over 18.6 years; our pixel is a good rim pixel (87% in the NASA map) but not necessarily that one, so the gap is expected to be at least partly a site mismatch, and we cannot separate the causes.
+Literature check: longest continuous darkness at Shackleton rim, ours 147 h (30 km rays; 102 h with 10.24 km rays) vs about 36 h (1.5 d) in the Mazarico abstract, +111 h. That figure is for the single best location in the whole region over 18.6 years; our pixel is a good rim pixel (87% in the NASA map) but not necessarily that one, so the gap is expected to be at least partly a site mismatch, and we cannot separate the causes.
 
 ## Honest caveats
 
 - Site coordinates are ours, not NASA's region centroids. Shackleton and Nobile points were picked as the brightest pixel in the NASA 60 m Sun map on a rim ring, then compared to that same map, so agreement says the horizon model works but is not an independent test of site choice. Malapert is the DEM summit near 85.99S, 2.06E.
 - Time window: one year (2027) against an 18.6-year average. The Sun's polar elevation amplitude changes over the nutation cycle, so single-year values can differ by several percent either way. This is probably part of the +2 to +8 point Sun differences at the three site points (the 5x5 patch check gives +5 to +11 at 2 m); we did not test it.
 - Observer height dominates: the same points at 0 m (as in the published maps) with our DEM give Sun fractions of 0.457 / 0.499 / 0.485 (Shackleton / Nobile / Malapert), far below 0.87 / 0.83 / 0.57. Adding the Sun's upper limb (+0.267 deg) moves 2 m results by only +0.02 to +0.03. So at these sites the 2 m height changes results by tens of points, because horizons are within about 1 deg of the Sun's elevation. The result is therefore very sensitive to DEM error (LOLA vertical error about 1 m or more, 40 m resampling, interpolated gaps near the pole). Treat illumination values as +-10 points at best.
-- Limited range: ray-marching reaches 10.24 km (half window). Correction, 2026-11-14: earlier builds stopped the rays at 5.12 km by mistake (step array bound in `scripts/lunar.py`), while this file and the horizon JSON said 10.24 km; fixed, horizons and `summary.json` rebuilt (Sun fractions dropped by 0.00 to 0.035; Shackleton 0.922 to 0.887, Nobile 0.910 to 0.896, Malapert 0.648 to 0.646). Mountains beyond the window edge are missing, which can only raise the real horizon, so our illumination is biased high and our darkness periods biased low. Malapert (massif surrounded by terrain within a few km) and Nobile (rim at 30+ km from other high ground) are less affected than the Shackleton rim, where Connecting Ridge and de Gerlache rim lie within 10 to 20 km. Not quantified here.
-- Horizon range limit: terrain beyond 10.24 km is not modelled and no DEM exists to extend it, so Sun hours are an upper bound (biased toward more light) for rim sites with far ridges such as Connecting Ridge and de Gerlache. The 102 h Shackleton dark spell did not change between 2.5 and 10.24 km ray range, but ridges beyond 10.24 km could not be tested.
+- Limited range: ray-marching reaches 30 km (64 km window; was 10.24 km before 2026-11-15). Correction, 2026-11-14: earlier builds stopped the rays at 5.12 km by mistake (step array bound in `scripts/lunar.py`), while this file and the horizon JSON said 10.24 km; fixed, horizons and `summary.json` rebuilt (Sun fractions dropped by 0.00 to 0.035; Shackleton 0.922 to 0.887, Nobile 0.910 to 0.896, Malapert 0.648 to 0.646). Mountains beyond the window edge are missing, which can only raise the real horizon, so our illumination is biased high and our darkness periods biased low. Malapert (massif surrounded by terrain within a few km) and Nobile (rim at 30+ km from other high ground) are less affected than the Shackleton rim, where Connecting Ridge and de Gerlache rim lie within 10 to 20 km. Not quantified here.
+- Horizon range limit: terrain beyond 30 km is not modelled. The 10.24 to 30 km extension changed Shackleton by -2.7 Sun points and +45 h of dark spell, so ridges beyond 30 km could still matter (the 20 to 30 km change was 1 point at Shackleton, 0 at the other two). Sun hours stay an upper bound.
 - Earth visibility is geometric (Earth disc centre above horizon, selenographic libration included by Horizons); the NASA map's exact Earth definition (disc fraction vs. centre) was not checked. Mismatch up to -15% at Shackleton is consistent with the 300 m patch spread (0.015..0.538), i.e. a sub-pixel position effect.
 - Resolution: 40 m/px grid resampled from the 20 m LDEM vs 60 m map; the published patch min/max spreads (up to 0.5) show how local positioning can alter values.
 
@@ -51,39 +51,39 @@ What it says: for Earth the 5 m row has the smallest bias at all three sites (Sh
 
 ## Sensitivity (`scripts/sensitivity.py`, `data/sensitivity.json`)
 
-Same DEM windows and 2027 hourly ephemerides as everywhere else; only the maximum ray length (2 m observer) or the observer height (full 10.24 km) changes. This is a convergence test of our own model, not a comparison with an outside source. Nothing beyond the 10.24 km window was computed (no DEM there), so the true limit is not measured.
+Same DEM windows (30 km) and 2027 hourly ephemerides as everywhere else; only the maximum ray length (2 m observer) or the observer height (full 30 km) changes. Since 2026-11-15 the runs use a 64 km LDEM window (1600 x 1600 px at 40 m, `scripts/extend_range.py`) so rays can go to 30 km; before that the window was 20.48 km and the limit 10.24 km. This is a convergence test of our own model, not a comparison with an outside source. Nothing beyond the 10.24 km window was computed (no DEM there), so the true limit is not measured.
 
-Ray range, Sun fraction / longest dark spell (h) / Earth fraction / largest horizon change vs the 10.24 km run:
+Ray range, Sun fraction / longest dark spell (h) / Earth fraction / largest horizon change vs the 30 km run (the 10.24 km column is what the model gave before 2026-11-15):
 
-| Site | 2.5 km | 5 km | 7.5 km | 10.24 km |
-|---|---|---|---|---|
-| Shackleton | 0.941 / 102 / 0.468 / 4.5 deg | 0.926 / 102 / 0.459 / 3.0 deg | 0.897 / 102 / 0.459 / 2.9 deg | 0.887 / 102 / 0.459 / 0 |
-| Nobile | 0.910 / 138 / 0.591 / 2.3 deg | 0.910 / 138 / 0.591 / 2.3 deg | 0.897 / 138 / 0.591 / 0.18 deg | 0.896 / 138 / 0.591 / 0 |
-| Malapert | 0.648 / 341 / 0.795 / 1.1 deg | 0.648 / 341 / 0.795 / 1.1 deg | 0.648 / 341 / 0.795 / 1.1 deg | 0.646 / 341 / 0.795 / 0 |
+| Site | 2.5 km | 5 km | 7.5 km | 10.24 km | 20 km | 30 km |
+|---|---|---|---|---|---|---|
+| Shackleton | 0.941 / 102 / 0.468 / 6.367 deg | 0.926 / 102 / 0.459 / 6.367 deg | 0.897 / 102 / 0.459 / 6.367 deg | 0.887 / 102 / 0.459 / 6.367 deg | 0.870 / 102 / 0.459 / 1.94 deg | 0.860 / 147 / 0.459 / 0 deg |
+| Nobile | 0.910 / 138 / 0.591 / 2.338 deg | 0.910 / 138 / 0.591 / 2.338 deg | 0.897 / 138 / 0.591 / 2.12 deg | 0.896 / 138 / 0.591 / 2.12 deg | 0.880 / 151 / 0.591 / 2.105 deg | 0.880 / 151 / 0.591 / 0 deg |
+| Malapert | 0.648 / 341 / 0.795 / 1.147 deg | 0.648 / 341 / 0.795 / 1.147 deg | 0.648 / 341 / 0.795 / 1.147 deg | 0.646 / 341 / 0.795 / 0.217 deg | 0.646 / 341 / 0.795 / 0 deg | 0.646 / 341 / 0.795 / 0 deg |
 
-Observer height at 10.24 km, Sun fraction / longest dark spell (h) / Earth fraction:
+Observer height at 30 km, Sun fraction / longest dark spell (h) / Earth fraction:
 
 | Site | 0 m | 2 m | 5 m |
 |---|---|---|---|
-| Shackleton | 0.457 / 539 / 0.457 | 0.887 / 102 / 0.459 | 0.929 / 74 / 0.461 |
-| Nobile | 0.499 / 544 / 0.423 | 0.896 / 138 / 0.591 | 0.944 / 96 / 0.625 |
+| Shackleton | 0.450 / 539 / 0.457 | 0.860 / 147 / 0.459 | 0.901 / 74 / 0.461 |
+| Nobile | 0.499 / 544 / 0.423 | 0.880 / 151 / 0.591 | 0.921 / 130 / 0.625 |
 | Malapert | 0.485 / 428 / 0.727 | 0.646 / 341 / 0.795 | 0.748 / 310 / 0.825 |
 
 What it says:
-- Nobile and Malapert are converged for the Sun by 7.5 km (change from 7.5 to 10.24 km: -0.001 and -0.002). Horizon changes of 1 to 2 deg between 2.5 and 10.24 km occur at 11 to 22 azimuths only, and the Sun fraction moves 0.002 to 0.014.
-- Shackleton is not converged. The Sun fraction still fell 0.897 to 0.887 between 7.5 and 10.24 km, and from 2.5 to 10.24 km it fell 0.054; the horizon at some azimuths rose by 2.9 deg between 7.5 and 10.24 km. Terrain farther than 10.24 km (Connecting Ridge, de Gerlache rim) would likely lower it further. This is the objection in the jury feedback, and we cannot quantify it without a larger DEM window. Not measured.
+- Update 2026-11-15, 30 km: the earlier objection that nothing beyond 10.24 km was tested is now closed by measurement. Shackleton still moved after 10.24 km: Sun fraction 0.887 -> 0.870 (20 km) -> 0.860 (30 km), longest dark spell 102 h -> 147 h, largest horizon change 6.4 deg. Nobile moved 0.896 -> 0.880 and its dark spell 138 -> 151 h. Malapert did not move (0.646). Between 20 and 30 km the horizon changed only at Shackleton (1.9 deg at some azimuths), so the model has converged to the resolution that matters, but ranges beyond 30 km were not run. The 5x5 patch check and observer-height band tables below still use the 10 km window (not re-run).
+- Earlier 10.24 km result, kept as a correction note: Shackleton looked unconverged then; the 30 km run confirms ridges beyond 10.24 km lowered it, as the jury expected.
 - Longest dark spell and Earth fraction did not change with range at the three sites (Shackleton longest no-Earth spell 345 h at 2.5 km, 354 h from 5 km on).
-- Observer height matters far more than range: 0 to 2 m moves the Sun fraction by 0.16 to 0.43 and 2 to 5 m by 0.04 to 0.10 (see the earlier caveat on 0 m vs 2 m). Longest dark spell at Shackleton: 539 h at 0 m, 102 h at 2 m, 74 h at 5 m.
+- Observer height matters far more than range: 0 to 2 m moves the Sun fraction by 0.16 to 0.43 and 2 to 5 m by 0.04 to 0.10 (see the earlier caveat on 0 m vs 2 m). Longest dark spell at Shackleton: 539 h at 0 m, 147 h at 2 m, 74 h at 5 m.
 - Still one model; an independent horizon code was not run (not measured). Other years were run, see the next section.
 
 ## Three-year check (2026, 2027, 2028)
 
-`scripts/multiyear.py` repeats the 2 m, 10.24 km run with hourly Horizons ephemerides for each year (same DEM windows, Sun disc centre, Earth centre). Output: `data/multiyear.json`.
+`scripts/multiyear.py` repeats the 2 m, 30 km run with hourly Horizons ephemerides for each year (same DEM windows, Sun disc centre, Earth centre). Output: `data/multiyear.json`.
 
 | Site | Sun fraction 2026 / 2027 / 2028 | Earth fraction 2026 / 2027 / 2028 | Longest dark spell (h) 2026 / 2027 / 2028 |
 |---|---|---|---|
-| Shackleton rim | 0.889 / 0.887 / 0.892 | 0.480 / 0.459 / 0.540 | 102 / 102 / 102 |
-| Nobile rim | 0.896 / 0.896 / 0.894 | 0.572 / 0.591 / 0.639 | 133 / 138 / 138 |
+| Shackleton rim | 0.862 / 0.860 / 0.866 | 0.480 / 0.459 / 0.540 | 147 / 147 / 147 |
+| Nobile rim | 0.879 / 0.880 / 0.879 | 0.572 / 0.591 / 0.639 | 149 / 151 / 151 |
 | Malapert summit | 0.669 / 0.646 / 0.663 | 0.799 / 0.795 / 0.830 | 340 / 341 / 341 |
 
-Spread between the three years: Sun 0.2 to 2.3 points, Earth 3.5 to 8.1 points (Earth moves most because libration changes from year to year). So the single-year 2027 Sun values are stable to a few points across 2026 to 2028, which makes a year-count mismatch an unlikely main cause of the 2 to 8 point Sun differences to NASA's map. This is three years, not the 18.6-year nutation cycle, and the range limit of 10.24 km is unchanged (no DEM beyond it, not measured).
+Spread between the three years: Sun 0.1 to 2.3 points, Earth 3.5 to 8.1 points (Earth moves most because libration changes from year to year). So the single-year 2027 Sun values are stable to a few points across 2026 to 2028, which makes a year-count mismatch an unlikely main cause of the 2 to 8 point Sun differences to NASA's map. This is three years, not the 18.6-year nutation cycle, and the range limit of 10.24 km is unchanged (no DEM beyond it, not measured).

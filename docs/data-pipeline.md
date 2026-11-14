@@ -20,7 +20,7 @@ NASA/PDS and JPL data are public domain; credit "NASA/GSFC/LRO LOLA Science Team
 ## Products
 
 - `data/dem/<id>.bin`: 512x512 little-endian Float32, 40 m/px (20.48 km window), local east/north grid, north up, centre = site. Resampled bilinearly from the 20 m polar stereographic LDEM (azimuthal-equidistant local frame).
-- `data/horizon/<id>.json`: 360 azimuths, observer 2 m, ray-march with sphere curvature, max range 10.24 km (window half-width; the rays reached only 5.12 km before the 2026-11-14 fix).
+- `data/horizon/<id>.json`: 360 azimuths, observer 2 m, ray-march with sphere curvature, max range 30 km, from a 1600 x 1600 px (64 km) window built by `scripts/extend_range.py` (before 2026-11-15: 10.24 km). `data/dem/<id>.bin` stays the 20.48 km window used by the 3D view and the click-anywhere navigator.
 - `data/ephemeris/<id>.json`, `data/summary.json`, `data/sites.json`, `data/validation.json`.
 
 ## Sites
