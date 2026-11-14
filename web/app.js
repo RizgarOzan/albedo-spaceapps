@@ -258,8 +258,30 @@ function renderBand(b) {
   box.innerHTML = '<table><thead><tr><th>Site</th><th>Observer</th><th>Sun % at POI</th><th>Sun 5x5 mean dev / RMSE (pp)</th><th>Earth % at POI</th><th>Earth 5x5 mean dev / RMSE (pp)</th></tr></thead><tbody>' + rows + '</tbody></table><p class="note">The 25 model points sit on the NASA 60 m pixels of a 5x5 patch around each POI, so unlike the POI row they are not the pixel the site was picked from. ' + b.note + ' Positive deviation: model brighter than the NASA map.</p>';
 }
 
+function stopTour(msg) { app.tour = null; app.playing = false; $('play').textContent = 'Play'; $('tour').disabled = false; if (msg != null) $('tourMsg').textContent = msg; }
+
+function startTour() {
+  const v = app.views[0], e = v && v.data && v.data.ephemeris, s = v && v.series && v.series.earth;
+  if (!s) { $('tourMsg').textContent = 'Earth data is not loaded yet.'; return; }
+  const step = app.timeline.stepMs, now = Math.round((app.tMs - app.timeline.start) / step);
+  let k = -1;
+  for (let i = Math.max(now, 1); i < s.length; i++) if (s[i - 1] && !s[i]) { k = i; break; }
+  if (k < 0) for (let i = 1; i < s.length; i++) if (s[i - 1] && !s[i]) { k = i; break; } // wrap to the start of the year
+  if (k < 0) { $('tourMsg').textContent = 'Earth never sets at this site in 2027.'; return; }
+  const from = Math.max(k - 5, 0), to = Math.min(k + 3, s.length - 1);
+  app.tMs = app.timeline.start + from * step; v.face('earth');
+  $('speed').value = '3600000'; app.tour = { v, endMs: app.timeline.start + to * step, setMs: app.timeline.start + k * step };
+  app.playing = true; $('play').textContent = 'Pause'; $('tour').disabled = true; app.dirty = true;
+  $('tourMsg').textContent = `Earth hangs about ${fmt(e.earth_el[from], 1)} deg above the horizon at ${v.site ? (v.site.name || v.siteId) : v.siteId}. Watch it slip behind the terrain.`;
+}
+
 function loop(prev) {
   return function frame(now) {
+    if (app.tour) {
+      app.tour.v.face('earth');
+      if (app.tMs >= app.tour.setMs && !app.tour.shown) { app.tour.shown = true; $('tourMsg').textContent = 'Earthset: no direct line of sight to Earth now, so no radio link until it rises again.'; }
+      if (app.tMs >= app.tour.endMs) stopTour();
+    }
     if (app.playing) { setTime(app.tMs + Number($('speed').value) * Math.min(now - prev, 100) / 1000); if (app.tMs >= app.timeline.start + (app.timeline.n - 1) * app.timeline.stepMs) app.tMs = app.timeline.start; }
     prev = now;
     if (app.dirty) {
@@ -297,8 +319,9 @@ async function main() {
   };
   app.views.push(new View($('views'), app.sites[0].id, 0));
   $('compare').onchange = relayout;
-  $('slider').oninput = e => { const { start, stepMs } = app.timeline; setTime(start + Number(e.target.value) * stepMs); };
-  $('play').onclick = () => { app.playing = !app.playing; $('play').textContent = app.playing ? 'Pause' : 'Play'; };
+  $('slider').oninput = e => { if (app.tour) stopTour(''); const { start, stepMs } = app.timeline; setTime(start + Number(e.target.value) * stepMs); };
+  $('tour').onclick = startTour;
+  $('play').onclick = () => { if (app.tour) { stopTour(''); return; } app.playing = !app.playing; $('play').textContent = app.playing ? 'Pause' : 'Play'; };
   app.dirty = true;
   requestAnimationFrame(loop(performance.now()));
 }
