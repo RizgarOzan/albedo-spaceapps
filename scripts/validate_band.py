@@ -6,16 +6,18 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lunar import *
 from build_data import visible
+from extend_range import big_dem
 
 D = os.path.join(ROOT, "data")
 FILES = {"sun": "AVGVISIB_85S_060M_201608.IMG", "earth": "AVGVISIB_85S_060M_201608_EARTH.IMG"}
 HEIGHTS = (0.0, 2.0, 5.0)
 
 
-def horizon_at(dem, mpp, row, col, obs_h):
+def horizon_at(dem, mpp, row, col, obs_h, max_range=30000.0):
     n = dem.shape[0]
     z0 = bilinear(dem, np.array(row), np.array(col)) + obs_h
     d = np.arange(1, n) * mpp * 0.5
+    d = d[d <= max_range]
     out = np.empty(360)
     for az in range(360):
         a = np.radians(az)
@@ -34,18 +36,20 @@ def main():
     maps = {k: np.fromfile(os.path.join(CACHE, v), "<i2").reshape(ILL_N, ILL_N) * 4e-5 for k, v in FILES.items()}
     sites = json.load(open(os.path.join(D, "sites.json")))
     os.makedirs(os.path.join(D, "published"), exist_ok=True)
-    out = dict(note="Model: 2027, Horizons, Sun disc centre, ray-march over the whole DEM window. Published: NASA AVGVISIB 60 m, 18.6 yr, 0 m.", sites={})
+    out = dict(note="Model: 2027, Horizons, Sun disc centre, ray-march to 30 km on the 64 km window. Published: NASA AVGVISIB 60 m, 18.6 yr, 0 m.", sites={})
     for s in sites:
-        n, mpp = s["dem_size_px"], s["meters_per_px"]
-        dem = np.fromfile(os.path.join(D, s["dem_file"]), "<f4").reshape(n, n)
+        mpp = s["meters_per_px"]
+        dem = big_dem(s)  # 64 km window, rays capped at 30 km
+        n = dem.shape[0]
         e = json.load(open(os.path.join(D, "ephemeris", s["id"] + ".json")))
         c0 = n / 2 - 0.5
         rs, cs = to_pix(s["lat"], s["lon"], ILL_N, ILL_RES)
         ri, ci = int(round(rs)), int(round(cs))
-        rec = dict(range_km=round(n * mpp / 2000, 2), poi={}, patch5x5={})
+        rec = dict(range_km=30.0, poi={}, patch5x5={})
         for h in HEIGHTS:
             hor = horizon_at(dem, mpp, c0, c0, h)
             rec["poi"][str(int(h))] = dict(sun=round(frac(e, hor, "sun"), 4), earth=round(frac(e, hor, "earth"), 4))
+        hcache = {}
         for key in ("sun", "earth"):
             m = maps[key]
             pub = {}; mod = {int(h): [] for h in HEIGHTS}; pubv = []
@@ -55,7 +59,9 @@ def main():
                     row, col = c0 - north / mpp, c0 + east / mpp
                     pubv.append(float(m[ri + di, ci + dj]))
                     for h in HEIGHTS:
-                        mod[int(h)].append(frac(e, horizon_at(dem, mpp, row, col, h), key))
+                        if (di, dj, h) not in hcache:
+                            hcache[(di, dj, h)] = horizon_at(dem, mpp, row, col, h)
+                        mod[int(h)].append(frac(e, hcache[(di, dj, h)], key))
             pubv = np.array(pubv)
             rec["patch5x5"][key] = dict(published_mean=round(float(pubv.mean()), 4), by_height={
                 str(h): dict(model_mean=round(float(np.mean(v)), 4), mean_dev=round(float(np.mean(np.array(v) - pubv)), 4),

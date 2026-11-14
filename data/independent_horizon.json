@@ -1,0 +1,68 @@
+{
+ "shackleton": {
+  "ray_march_4_30km": {
+   "sun": 0.9123,
+   "longest_dark_h": 74,
+   "earth": 0.5168
+  },
+  "all_cells_4_30km": {
+   "sun": 0.9021,
+   "longest_dark_h": 78,
+   "earth": 0.5142
+  },
+  "ray_march_full_0_30km": {
+   "sun": 0.86,
+   "longest_dark_h": 147,
+   "earth": 0.4586
+  },
+  "horizon_diff_deg": {
+   "mean": 0.093,
+   "mean_abs": 0.093,
+   "max_abs": 0.327
+  }
+ },
+ "nobile": {
+  "ray_march_4_30km": {
+   "sun": 0.9598,
+   "longest_dark_h": 50,
+   "earth": 0.6909
+  },
+  "all_cells_4_30km": {
+   "sun": 0.9553,
+   "longest_dark_h": 53,
+   "earth": 0.6893
+  },
+  "ray_march_full_0_30km": {
+   "sun": 0.8797,
+   "longest_dark_h": 151,
+   "earth": 0.5914
+  },
+  "horizon_diff_deg": {
+   "mean": 0.123,
+   "mean_abs": 0.123,
+   "max_abs": 0.368
+  }
+ },
+ "malapert": {
+  "ray_march_4_30km": {
+   "sun": 0.9815,
+   "longest_dark_h": 54,
+   "earth": 1.0
+  },
+  "all_cells_4_30km": {
+   "sun": 0.9792,
+   "longest_dark_h": 58,
+   "earth": 1.0
+  },
+  "ray_march_full_0_30km": {
+   "sun": 0.6458,
+   "longest_dark_h": 341,
+   "earth": 0.795
+  },
+  "horizon_diff_deg": {
+   "mean": 0.101,
+   "mean_abs": 0.104,
+   "max_abs": 0.406
+  }
+ }
+}

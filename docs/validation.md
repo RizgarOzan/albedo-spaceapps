@@ -37,17 +37,17 @@ For each site the model is run at 0, 2 and 5 m observer height. The 5x5 check pu
 
 | Site | Height | Sun at POI | Sun 5x5 dev / RMSE | Earth at POI | Earth 5x5 dev / RMSE |
 |---|---|---|---|---|---|
-| shackleton | 0 m | 45.7 | -6.7 / 15.2 | 45.7 | -9.1 / 29.2 |
-| shackleton | 2 m | 88.7 | +6.1 / 17.0 | 45.9 | -2.8 / 24.7 |
-| shackleton | 5 m | 92.9 | +15.2 / 21.7 | 46.1 | +0.7 / 22.1 |
-| nobile | 0 m | 49.9 | -11.8 / 19.3 | 42.3 | -15.5 / 21.1 |
-| nobile | 2 m | 89.6 | +10.5 / 17.6 | 59.1 | -4.8 / 10.3 |
-| nobile | 5 m | 94.4 | +24.7 / 28.6 | 62.5 | +0.8 / 7.6 |
+| shackleton | 0 m | 45.0 | -8.1 / 15.6 | 45.7 | -9.1 / 29.2 |
+| shackleton | 2 m | 86.0 | +4.5 / 16.0 | 45.9 | -2.8 / 24.7 |
+| shackleton | 5 m | 90.1 | +13.3 / 20.2 | 46.1 | +0.7 / 22.1 |
+| nobile | 0 m | 49.9 | -11.9 / 19.4 | 42.3 | -15.5 / 21.1 |
+| nobile | 2 m | 88.0 | +9.8 / 17.0 | 59.1 | -4.8 / 10.3 |
+| nobile | 5 m | 92.1 | +23.5 / 27.3 | 62.5 | +0.8 / 7.6 |
 | malapert | 0 m | 48.5 | -8.9 / 10.1 | 72.7 | -11.5 / 11.9 |
 | malapert | 2 m | 64.6 | +4.9 / 5.9 | 79.5 | -3.0 / 5.6 |
-| malapert | 5 m | 74.8 | +14.2 / 15.2 | 82.5 | +2.1 / 6.2 |
+| malapert | 5 m | 74.8 | +14.1 / 15.2 | 82.5 | +2.1 / 6.2 |
 
-What it says: for Earth the 5 m row has the smallest bias at all three sites (Shackleton +0.7, Nobile +0.8, Malapert +2.1 points); the 2 m row is 3 to 5 points low. For the Sun the bias is 5 to 10 points high at 2 m and 14 to 25 points high at 5 m, and 7 to 12 points low at 0 m, so the NASA map sits between our 0 m and 2 m results. RMSE stays at 6 to 29 points whatever the height, so sub-pixel position matters more than the height choice. No single height is "right" and we do not tune it to the NASA maps.
+What it says: for Earth the 5 m row has the smallest bias at all three sites (Shackleton +0.7, Nobile +0.8, Malapert +2.1 points); the 2 m row is 3 to 5 points low. For the Sun the bias is 4 to 10 points high at 2 m and 13 to 24 points high at 5 m, and 8 to 12 points low at 0 m, so the NASA map sits between our 0 m and 2 m results. RMSE stays at 6 to 29 points whatever the height, so sub-pixel position matters more than the height choice. No single height is "right" and we do not tune it to the NASA maps.
 
 ## Sensitivity (`scripts/sensitivity.py`, `data/sensitivity.json`)
 
@@ -70,7 +70,7 @@ Observer height at 30 km, Sun fraction / longest dark spell (h) / Earth fraction
 | Malapert | 0.485 / 428 / 0.727 | 0.646 / 341 / 0.795 | 0.748 / 310 / 0.825 |
 
 What it says:
-- Update 2026-11-15, 30 km: the earlier objection that nothing beyond 10.24 km was tested is now closed by measurement. Shackleton still moved after 10.24 km: Sun fraction 0.887 -> 0.870 (20 km) -> 0.860 (30 km), longest dark spell 102 h -> 147 h, largest horizon change 6.4 deg. Nobile moved 0.896 -> 0.880 and its dark spell 138 -> 151 h. Malapert did not move (0.646). Between 20 and 30 km the horizon changed only at Shackleton (1.9 deg at some azimuths), so the model has converged to the resolution that matters, but ranges beyond 30 km were not run. The 5x5 patch check and observer-height band tables below still use the 10 km window (not re-run).
+- Update 2026-11-15, 30 km: the earlier objection that nothing beyond 10.24 km was tested is now closed by measurement. Shackleton still moved after 10.24 km: Sun fraction 0.887 -> 0.870 (20 km) -> 0.860 (30 km), longest dark spell 102 h -> 147 h, largest horizon change 6.4 deg. Nobile moved 0.896 -> 0.880 and its dark spell 138 -> 151 h. Malapert did not move (0.646). Between 20 and 30 km the horizon changed only at Shackleton (1.9 deg at some azimuths), so the model has converged to the resolution that matters, but ranges beyond 30 km were not run. The 5x5 patch check and observer-height band table below were re-run with 30 km rays on 2026-11-15.
 - Earlier 10.24 km result, kept as a correction note: Shackleton looked unconverged then; the 30 km run confirms ridges beyond 10.24 km lowered it, as the jury expected.
 - Longest dark spell and Earth fraction did not change with range at the three sites (Shackleton longest no-Earth spell 345 h at 2.5 km, 354 h from 5 km on).
 - Observer height matters far more than range: 0 to 2 m moves the Sun fraction by 0.16 to 0.43 and 2 to 5 m by 0.04 to 0.10 (see the earlier caveat on 0 m vs 2 m). Longest dark spell at Shackleton: 539 h at 0 m, 147 h at 2 m, 74 h at 5 m.
@@ -87,3 +87,15 @@ What it says:
 | Malapert summit | 0.669 / 0.646 / 0.663 | 0.799 / 0.795 / 0.830 | 340 / 341 / 341 |
 
 Spread between the three years: Sun 0.1 to 2.3 points, Earth 3.5 to 8.1 points (Earth moves most because libration changes from year to year). So the single-year 2027 Sun values are stable to a few points across 2026 to 2028, which makes a year-count mismatch an unlikely main cause of the 2 to 8 point Sun differences to NASA's map. This is three years, not the 18.6-year nutation cycle, and the range limit of 10.24 km is unchanged (no DEM beyond it, not measured).
+
+## Independent horizon check (2026-11-15, `scripts/independent_horizon.py`, `data/independent_horizon.json`)
+
+A second horizon code with a different method: no ray, every DEM cell between 4 and 30 km from the site gets its own elevation angle (curvature included) and azimuth, and the maximum per 1 degree bin is kept. Closer than 4 km a 40 m cell is much narrower than 1 degree, so that band is not testable this way and is left out of both models. Same DEM, same ephemerides.
+
+| Site | Mean abs horizon difference | Largest difference | Sun fraction ray / cells | Longest dark spell ray / cells (h) |
+|---|---|---|---|---|
+| Shackleton | 0.09 deg | 0.33 deg | 0.912 / 0.902 | 74 / 78 |
+| Nobile | 0.12 deg | 0.37 deg | 0.960 / 0.955 | 50 / 53 |
+| Malapert | 0.10 deg | 0.41 deg | 0.982 / 0.979 | 54 / 58 |
+
+(The Sun fractions here are higher than the main results because the 0 to 4 km band is left out of both columns; only the agreement between the two methods matters.) So the far-field ray march (4 to 30 km) agrees with a brute-force check to about 0.1 deg and 1 Sun point, and this closes "no independent horizon code". It is still the same DEM, so DEM error (LOLA vertical error about 1 m or more) is not tested by it.

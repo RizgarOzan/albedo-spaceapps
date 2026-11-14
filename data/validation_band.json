@@ -1,19 +1,19 @@
 {
- "note": "Model: 2027, Horizons, Sun disc centre, ray-march over the whole DEM window. Published: NASA AVGVISIB 60 m, 18.6 yr, 0 m.",
+ "note": "Model: 2027, Horizons, Sun disc centre, ray-march to 30 km on the 64 km window. Published: NASA AVGVISIB 60 m, 18.6 yr, 0 m.",
  "sites": {
   "shackleton": {
-   "range_km": 10.24,
+   "range_km": 30.0,
    "poi": {
     "0": {
-     "sun": 0.4573,
+     "sun": 0.4501,
      "earth": 0.4567
     },
     "2": {
-     "sun": 0.8874,
+     "sun": 0.86,
      "earth": 0.4586
     },
     "5": {
-     "sun": 0.9291,
+     "sun": 0.9011,
      "earth": 0.4613
     }
    },
@@ -22,19 +22,19 @@
      "published_mean": 0.5464,
      "by_height": {
       "0": {
-       "model_mean": 0.4794,
-       "mean_dev": -0.067,
-       "rmse": 0.1519
+       "model_mean": 0.4655,
+       "mean_dev": -0.0809,
+       "rmse": 0.1555
       },
       "2": {
-       "model_mean": 0.6076,
-       "mean_dev": 0.0612,
-       "rmse": 0.1698
+       "model_mean": 0.5912,
+       "mean_dev": 0.0448,
+       "rmse": 0.16
       },
       "5": {
-       "model_mean": 0.698,
-       "mean_dev": 0.1516,
-       "rmse": 0.2171
+       "model_mean": 0.6795,
+       "mean_dev": 0.1331,
+       "rmse": 0.2018
       }
      }
     },
@@ -61,18 +61,18 @@
    }
   },
   "nobile": {
-   "range_km": 10.24,
+   "range_km": 30.0,
    "poi": {
     "0": {
      "sun": 0.4994,
      "earth": 0.4234
     },
     "2": {
-     "sun": 0.8962,
+     "sun": 0.8797,
      "earth": 0.5914
     },
     "5": {
-     "sun": 0.9439,
+     "sun": 0.9211,
      "earth": 0.6249
     }
    },
@@ -81,19 +81,19 @@
      "published_mean": 0.555,
      "by_height": {
       "0": {
-       "model_mean": 0.4372,
-       "mean_dev": -0.1178,
-       "rmse": 0.1927
+       "model_mean": 0.4354,
+       "mean_dev": -0.1195,
+       "rmse": 0.1941
       },
       "2": {
-       "model_mean": 0.6599,
-       "mean_dev": 0.105,
-       "rmse": 0.1758
+       "model_mean": 0.6535,
+       "mean_dev": 0.0985,
+       "rmse": 0.1699
       },
       "5": {
-       "model_mean": 0.8023,
-       "mean_dev": 0.2473,
-       "rmse": 0.286
+       "model_mean": 0.7904,
+       "mean_dev": 0.2354,
+       "rmse": 0.2728
       }
      }
     },
@@ -120,18 +120,18 @@
    }
   },
   "malapert": {
-   "range_km": 10.24,
+   "range_km": 30.0,
    "poi": {
     "0": {
      "sun": 0.4849,
      "earth": 0.7269
     },
     "2": {
-     "sun": 0.646,
+     "sun": 0.6458,
      "earth": 0.795
     },
     "5": {
-     "sun": 0.7481,
+     "sun": 0.7479,
      "earth": 0.8247
     }
    },
@@ -145,14 +145,14 @@
        "rmse": 0.1012
       },
       "2": {
-       "model_mean": 0.5986,
-       "mean_dev": 0.049,
-       "rmse": 0.0593
+       "model_mean": 0.5985,
+       "mean_dev": 0.0489,
+       "rmse": 0.0592
       },
       "5": {
-       "model_mean": 0.6913,
-       "mean_dev": 0.1417,
-       "rmse": 0.1521
+       "model_mean": 0.6911,
+       "mean_dev": 0.1415,
+       "rmse": 0.1519
       }
      }
     },
