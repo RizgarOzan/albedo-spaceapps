@@ -1,4 +1,4 @@
-import { horizonFromDem, seriesStats, latLonToPx, pxToLatLon, samplePublished, candidateGrid, navScore, rankRows, toCsv, NAV_MARGIN_PX } from './lib.js';
+import { horizonFromDem, truncatedAz, sectorTruncated, seriesStats, latLonToPx, pxToLatLon, samplePublished, candidateGrid, navScore, rankRows, toCsv, NAV_MARGIN_PX } from './lib.js';
 
 const $ = id => document.getElementById(id);
 const PUB = 256, STRIDE = 48;
@@ -9,7 +9,7 @@ export const CSV_COLS = [
   { label: 'longest_dark_h', get: r => r.darkH }, { label: 'longest_no_earth_h', get: r => r.noEarthH },
   { label: 'nasa_map_sun_0m', get: r => f4(r.pubSun) }, { label: 'diff_sun_vs_nasa_map', get: r => r.pubSun == null ? '' : f4(r.sun - r.pubSun) },
   { label: 'nasa_map_earth_0m', get: r => f4(r.pubEarth) }, { label: 'diff_earth_vs_nasa_map', get: r => r.pubEarth == null ? '' : f4(r.earth - r.pubEarth) },
-  { label: 'picked', get: r => r.picked ? 'yes' : '' }
+  { label: 'earth_ray_truncated', get: r => r.earthTrunc ? 'yes' : '' }, { label: 'picked', get: r => r.picked ? 'yes' : '' }
 ];
 
 export function initNavigator(ctx) {
@@ -36,14 +36,15 @@ export function initNavigator(ctx) {
   function evaluate(row, col, picked) {
     const s = st.site, n = s.dem_size_px;
     if (row < 0 || col < 0 || row > n - 1 || col > n - 1) { msg('Point is outside the ' + (n * s.meters_per_px / 1000) + ' km DEM window of this site.'); return null; }
-    const x = seriesStats(st.data.ephemeris, horizonFromDem(st.data.dem, n, s.meters_per_px, row, col, 2)), ll = pxToLatLon(s, row, col);
+    const x = seriesStats(st.data.ephemeris, horizonFromDem(st.data.dem, n, s.meters_per_px, row, col, 2)), earthTrunc = sectorTruncated(st.data.ephemeris.earth_az, truncatedAz(n, s.meters_per_px, row, col)), ll = pxToLatLon(s, row, col);
     const m = NAV_MARGIN_PX, edge = row < m || col < m || row > n - 1 - m || col > n - 1 - m;
-    return { row, col, lat: ll.lat, lon: ll.lon, sun: x.sun, earth: x.earth, darkH: x.darkH, noEarthH: x.noEarthH, edge, picked,
-      pubSun: st.pub.sun ? samplePublished(st.pub.sun, PUB, s, row, col) : null, pubEarth: st.pub.earth ? samplePublished(st.pub.earth, PUB, s, row, col) : null, score: navScore(x) };
+    const pubEarth = st.pub.earth ? samplePublished(st.pub.earth, PUB, s, row, col) : null;
+    return { row, col, lat: ll.lat, lon: ll.lon, sun: x.sun, earth: x.earth, darkH: x.darkH, noEarthH: x.noEarthH, edge, earthTrunc, picked,
+      pubSun: st.pub.sun ? samplePublished(st.pub.sun, PUB, s, row, col) : null, pubEarth, score: navScore(x, pubEarth) };
   }
   function addPoint(row, col) {
     const r = evaluate(row, col, true); if (!r) return;
-    msg(r.edge ? 'Near the window edge: horizon range is shorter there, so Sun/Earth fractions are biased high.' : '');
+    msg(r.earthTrunc ? 'The ray toward Earth leaves the DEM window before 10 km: terrain beyond is unknown, so Earth % may read too high (marked †).' : r.edge ? 'Near the window edge: horizon range is shorter there, so Sun/Earth fractions are biased high.' : '');
     st.rows.push(r); st.last = r; render();
   }
   async function load(id) {
@@ -72,8 +73,8 @@ export function initNavigator(ctx) {
     if (st.last) { c.strokeStyle = '#5ee0a0'; c.lineWidth = 3; c.beginPath(); c.arc(st.last.col, st.last.row, 9, 0, 6.283); c.stroke(); c.lineWidth = 1; }
     const p = v => v == null ? '-' : (v * 100).toFixed(1), d = (a, b) => b == null ? '-' : ((a - b) >= 0 ? '+' : '') + ((a - b) * 100).toFixed(1);
     const top = st.rows.slice(0, 20); if (st.last && !top.includes(st.last)) top.push(st.last);
-    $('navBody').innerHTML = '<table><thead><tr><th>#</th><th>Lat</th><th>Lon</th><th>Sun %</th><th>Earth %</th><th>Longest dark (h)</th><th>NASA Sun %</th><th>Diff (pp)</th><th>NASA Earth %</th><th>Diff (pp)</th></tr></thead><tbody>' +
-      top.map(r => `<tr${r === st.last ? ' class="hl"' : ''}><td>${r.rank}${r.picked ? ' *' : ''}</td><td class="num">${r.lat.toFixed(3)}</td><td class="num">${r.lon.toFixed(3)}</td><td class="num">${p(r.sun)}</td><td class="num">${p(r.earth)}</td><td class="num">${r.darkH}</td><td class="num">${p(r.pubSun)}</td><td class="num">${d(r.sun, r.pubSun)}</td><td class="num">${p(r.pubEarth)}</td><td class="num">${d(r.earth, r.pubEarth)}</td></tr>`).join('') + '</tbody></table>';
+    $('navBody').innerHTML = '<table><thead><tr><th>#</th><th>Lat</th><th>Lon</th><th>Sun %</th><th>Earth % (upper bound)</th><th>Longest dark (h)</th><th>NASA Sun %</th><th>Diff (pp)</th><th>NASA Earth %</th><th>Diff (pp)</th></tr></thead><tbody>' +
+      top.map(r => `<tr${r === st.last ? ' class="hl"' : ''}><td>${r.rank}${r.picked ? ' *' : ''}</td><td class="num">${r.lat.toFixed(3)}</td><td class="num">${r.lon.toFixed(3)}</td><td class="num">${p(r.sun)}</td><td class="num">${p(r.earth)}${r.earthTrunc ? ' †' : ''}</td><td class="num">${r.darkH}</td><td class="num">${p(r.pubSun)}</td><td class="num">${d(r.sun, r.pubSun)}</td><td class="num">${p(r.pubEarth)}</td><td class="num">${d(r.earth, r.pubEarth)}</td></tr>`).join('') + '</tbody></table>';
   }
   load(ctx.sites[0].id);
 }

@@ -142,6 +142,26 @@ export function horizonFromDem(dem, n, mpp, row, col, obsH = 2, R = R_MOON) {
   return out;
 }
 
+// Rays shorter than this (m) hit the DEM window edge before the usual 10 km horizon range, so terrain beyond is unknown.
+export const FULL_RANGE_M = 10000;
+// Distance (m) from fractional pixel (row, col) to the DEM window edge along azimuth az (deg).
+export function rayLengthM(n, mpp, row, col, az) {
+  const a = az * Math.PI / 180, dr = -Math.cos(a), dc = Math.sin(a);
+  const lim = (p, d) => d > 1e-12 ? (n - 1 - p) / d : d < -1e-12 ? -p / d : Infinity;
+  return Math.max(0, Math.min(lim(row, dr), lim(col, dc))) * mpp;
+}
+// bool[360]: azimuths whose horizon ray is cut short by the window edge. Terrain beyond is unknown, so the horizon there is biased
+// low and Sun/Earth look too visible (Shackleton: truncated Earth sectors read +0.10 high vs NASA; Malapert's real massif horizon does not).
+export function truncatedAz(n, mpp, row, col) {
+  return Array.from({ length: 360 }, (_, az) => rayLengthM(n, mpp, row, col, az) < FULL_RANGE_M);
+}
+// True if any azimuth the body visits (deg, any length) lies in a truncated ray (within 1 deg).
+export function sectorTruncated(azSeries, truncated) {
+  const seen = new Set(); for (let i = 0; i < azSeries.length; i++) seen.add(Math.round(((azSeries[i] % 360) + 360) % 360) % 360);
+  for (const a of seen) if (truncated[a] || truncated[(a + 1) % 360] || truncated[(a + 359) % 360]) return true;
+  return false;
+}
+
 // Local ENU frame of a site (north up, row 0 = north), azimuthal-equidistant about (lat, lon) like scripts/lunar.py.
 export function latLonToPx(site, lat, lon) {
   const d = Math.PI / 180, p0 = site.lat * d, p = lat * d, dl = (lon - site.lon) * d;
@@ -191,7 +211,9 @@ export function rankRows(rows, key = 'score') {
   return rows.slice().sort((a, b) => b[key] - a[key]);
 }
 // Simple landing-site score: sunlit fraction and Earth (comms) fraction weighted equally, short darkness is a tiebreak.
-export function navScore(st) { return 0.5 * st.sun + 0.5 * st.earth - st.darkH / 8760 * 0.1; }
+// Our Earth fraction is an upper bound (terrain beyond the 20 km window is missing and Earth sits only a few degrees up),
+// so when a NASA Earth value is known the lower of the two is used.
+export function navScore(st, pubEarth = null) { const e = pubEarth == null ? st.earth : Math.min(st.earth, pubEarth); return 0.5 * st.sun + 0.5 * e - st.darkH / 8760 * 0.1; }
 
 export function toCsv(rows, cols) {
   const q = v => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
