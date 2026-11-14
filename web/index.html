@@ -13,6 +13,7 @@
   <h1>Lunar Light Clock <span class="sub">Lunar south pole - sunlight and Earth visibility, 2027</span></h1>
   <nav>
     <button id="tabExplore" class="tab active" type="button">Explorer</button>
+    <button id="tabNav" class="tab" type="button">Navigator</button>
     <button id="tabValid" class="tab" type="button">Validation</button>
   </nav>
 </header>
@@ -33,12 +34,27 @@
     </select>
     <input type="range" id="slider" min="0" max="8759" value="0" step="1" aria-label="Time">
     <output id="utc">-</output>
+    <button id="sonify" type="button" aria-pressed="false" title="Pitch follows the Sun elevation; silent while the Sun is hidden">Sound: off</button>
   </div>
+</main>
+
+<main id="navigator" hidden>
+  <h2>Landing-site navigator</h2>
+  <p class="note">Click the map or enter a latitude/longitude (degrees, east-positive) inside the 20 km window. Each point gets its own terrain horizon (2 m observer, rays out to the window edge) and is scored over 2027 on Sun and Earth visibility. Sun and Earth directions are taken from the window centre; within 10 km that shifts them by at most about 0.3 degrees. The NASA columns are the published 18.6-year, 0 m maps, so the difference also contains the observer-height and time-span effects described on the Validation tab. Ranking: mean of Sun and Earth fraction minus a small penalty for the longest dark spell. Yellow dots: 48 px grid; blue: points you picked (*).</p>
+  <div class="controls">
+    <select id="navSite" aria-label="Site"></select>
+    <input id="navLat" placeholder="lat, e.g. -89.69" size="14" aria-label="Latitude"> <input id="navLon" placeholder="lon, e.g. 197.06" size="14" aria-label="Longitude">
+    <button id="navGo" type="button">Add point</button> <button id="navCsv" type="button">Download CSV</button> <span id="navMsg" class="muted"></span>
+  </div>
+  <canvas id="navMap" class="navmap" width="512" height="512" aria-label="Terrain map, click to add a point"></canvas>
+  <div id="navBody"></div>
 </main>
 
 <main id="validation" hidden>
   <h2>Validation: model vs. published values</h2>
   <div id="valBody"></div>
+  <h3>Observer height band and 5x5 check</h3>
+  <div id="bandBody"></div>
 </main>
 
 <footer>

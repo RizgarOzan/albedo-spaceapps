@@ -116,3 +116,84 @@ export async function loadSiteData(fetchFn, base, id) {
 export async function loadOptional(fetchFn, base, file) {
   try { return await getJson(fetchFn, base + file); } catch (e) { return null; }
 }
+
+// ---- Navigator: horizon from the DEM at any pixel, per-point statistics, ranking, CSV ----
+export const R_MOON = 1737400;
+
+// Max terrain elevation angle (deg) per integer azimuth from fractional pixel (row, col); same maths as scripts/lunar.py horizon().
+export function horizonFromDem(dem, n, mpp, row, col, obsH = 2, R = R_MOON) {
+  const out = new Float64Array(360);
+  const bil = (y, x) => {
+    const y0 = Math.min(Math.floor(y), n - 2), x0 = Math.min(Math.floor(x), n - 2), ty = y - y0, tx = x - x0;
+    return dem[y0 * n + x0] * (1 - ty) * (1 - tx) + dem[y0 * n + x0 + 1] * (1 - ty) * tx + dem[(y0 + 1) * n + x0] * ty * (1 - tx) + dem[(y0 + 1) * n + x0 + 1] * ty * tx;
+  };
+  const z0 = bil(row, col) + obsH;
+  for (let az = 0; az < 360; az++) {
+    const a = az * Math.PI / 180, s = Math.sin(a), c = Math.cos(a);
+    let best = -Infinity;
+    for (let k = 1; ; k++) {
+      const d = k * mpp * 0.5, r = row - d * c / mpp, q = col + d * s / mpp;
+      if (r < 0 || q < 0 || r > n - 1 || q > n - 1) break;
+      const ang = Math.atan2(bil(r, q) - d * d / (2 * R) - z0, d) * 180 / Math.PI;
+      if (ang > best) best = ang;
+    }
+    out[az] = best === -Infinity ? 0 : best;
+  }
+  return out;
+}
+
+// Local ENU frame of a site (north up, row 0 = north), azimuthal-equidistant about (lat, lon) like scripts/lunar.py.
+export function latLonToPx(site, lat, lon) {
+  const d = Math.PI / 180, p0 = site.lat * d, p = lat * d, dl = (lon - site.lon) * d;
+  const cosc = Math.sin(p0) * Math.sin(p) + Math.cos(p0) * Math.cos(p) * Math.cos(dl);
+  const c = Math.acos(Math.max(-1, Math.min(1, cosc))), k = c < 1e-9 ? 1 : c / Math.sin(c);
+  const east = R_MOON * k * Math.cos(p) * Math.sin(dl);
+  const north = R_MOON * k * (Math.cos(p0) * Math.sin(p) - Math.sin(p0) * Math.cos(p) * Math.cos(dl));
+  const half = site.dem_size_px * site.meters_per_px / 2;
+  return { row: (half - north) / site.meters_per_px - 0.5, col: (east + half) / site.meters_per_px - 0.5, east, north };
+}
+export function pxToLatLon(site, row, col) {
+  const d = Math.PI / 180, half = site.dem_size_px * site.meters_per_px / 2;
+  const east = (col + 0.5) * site.meters_per_px - half, north = half - (row + 0.5) * site.meters_per_px;
+  const s = Math.hypot(east, north) / R_MOON, az = Math.atan2(east, north), p0 = site.lat * d, l0 = site.lon * d;
+  const lat = Math.asin(Math.sin(p0) * Math.cos(s) + Math.cos(p0) * Math.sin(s) * Math.cos(az));
+  const lon = l0 + Math.atan2(Math.sin(az) * Math.sin(s) * Math.cos(p0), Math.cos(s) - Math.sin(p0) * Math.sin(lat));
+  return { lat: lat / d, lon: (((lon / d) % 360) + 360) % 360 };
+}
+
+// Sun/Earth fractions and longest dark / no-Earth spell for a horizon profile (same definitions as summary.json).
+export function seriesStats(eph, horizon) {
+  const run = s => { let best = 0, cur = 0; for (let i = 0; i < s.length; i++) { cur = s[i] ? 0 : cur + 1; if (cur > best) best = cur; } return best; };
+  const sun = visibilitySeries(eph, horizon, 'sun'), earth = visibilitySeries(eph, horizon, 'earth');
+  const sum = s => s.reduce((a, b) => a + b, 0), h = eph.step_min / 60;
+  return { sun: sum(sun) / eph.n, earth: sum(earth) / eph.n, darkH: run(sun) * h, noEarthH: run(earth) * h, sunSeries: sun, earthSeries: earth };
+}
+
+// Sample a uint8 published-fraction patch (size x size, spans the DEM window) at a DEM pixel; null if no patch.
+export function samplePublished(bytes, size, site, row, col) {
+  if (!bytes || bytes.length !== size * size) return null;
+  const f = size / site.dem_size_px, y = (row + 0.5) * f - 0.5, x = (col + 0.5) * f - 0.5;
+  if (y < 0 || x < 0 || y > size - 1 || x > size - 1) return null;
+  const y0 = Math.min(Math.floor(y), size - 2), x0 = Math.min(Math.floor(x), size - 2), ty = y - y0, tx = x - x0;
+  const g = (r, c) => bytes[r * size + c];
+  return (g(y0, x0) * (1 - ty) * (1 - tx) + g(y0, x0 + 1) * (1 - ty) * tx + g(y0 + 1, x0) * ty * (1 - tx) + g(y0 + 1, x0 + 1) * ty * tx) / 255;
+}
+
+export const NAV_MARGIN_PX = 40;
+// Candidate grid points (row, col), at least NAV_MARGIN_PX from the DEM edge so rays have range.
+export function candidateGrid(n, stride) {
+  const pts = [];
+  for (let r = NAV_MARGIN_PX; r <= n - 1 - NAV_MARGIN_PX; r += stride) for (let c = NAV_MARGIN_PX; c <= n - 1 - NAV_MARGIN_PX; c += stride) pts.push({ row: r, col: c });
+  return pts;
+}
+
+export function rankRows(rows, key = 'score') {
+  return rows.slice().sort((a, b) => b[key] - a[key]);
+}
+// Simple landing-site score: sunlit fraction and Earth (comms) fraction weighted equally, short darkness is a tiebreak.
+export function navScore(st) { return 0.5 * st.sun + 0.5 * st.earth - st.darkH / 8760 * 0.1; }
+
+export function toCsv(rows, cols) {
+  const q = v => { const s = v == null ? '' : String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  return [cols.map(c => q(c.label)).join(','), ...rows.map(r => cols.map(c => q(c.get(r))).join(','))].join('\n') + '\n';
+}

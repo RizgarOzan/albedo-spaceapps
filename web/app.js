@@ -1,6 +1,8 @@
 import * as THREE from './vendor/three.module.js';
 import { loadSites, loadSiteData, loadOptional, normalizeValidation, stepIndex, horizonAt, isVisible,
   visibilitySeries, nextTransition, formatCountdown, formatUtc } from './lib.js';
+import { initNavigator } from './navigator.js';
+import { Sonifier } from './sonify.js';
 
 const $ = id => document.getElementById(id);
 const fetchFn = (u) => fetch(u);
@@ -202,6 +204,11 @@ class View {
           <div>Terrain horizon there: ${h ? fmt(horizonAt(h, az), 2) + '°' : '-'}</div><div>${state}</div><div>${next}</div></div>`;
       };
       html += body('sun', 'Sun', 'sun', 'Sunrise', 'Sunset') + body('earth', 'Earth', 'earth', 'Earthrise', 'Earthset');
+      if (this.series) {
+        const tr = nextTransition(this.series.earth, i, e.step_min);
+        html += `<div class="card earthset" id="earthset"><b>${tr ? (tr.kind === 'set' ? 'Earthset in ' : 'Earthrise in ') + formatCountdown(tr.minutes) : 'No Earth rise or set in the window'}</b> <span class="muted">(Earth currently ${this.series.earth[i] ? 'above' : 'below'} the terrain horizon)</span></div>`;
+      }
+      if (app.sonic && app.sonic.on && this === app.views[0]) app.sonic.update(e.sun_el[i], this.series ? !!this.series.sun[i] : e.sun_el[i] > 0);
     }
     const st = app.summary && (app.summary[this.siteId] || (Array.isArray(app.summary) && app.summary.find(x => x.id === this.siteId)));
     if (!st) html += '<div class="card wide empty">No yearly statistics available (summary.json missing or has no entry for this site).</div>';
@@ -239,6 +246,18 @@ function renderValidation(raw) {
     `</tbody></table><p class="note">Model values come from the DEM horizon and Horizons ephemeris. See docs/validation.md for the exact comparison and its caveats.</p>`;
 }
 
+function renderBand(b) {
+  const box = $('bandBody');
+  if (!b || !b.sites) { box.innerHTML = '<p class="empty">No validation_band.json.</p>'; return; }
+  const x = v => v == null ? '-' : (v * 100).toFixed(1), sg = v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1);
+  let rows = '';
+  for (const [id, r] of Object.entries(b.sites)) for (const h of ['0', '2', '5']) {
+    const ps = r.patch5x5.sun.by_height[h], pe = r.patch5x5.earth.by_height[h];
+    rows += `<tr><td>${id}</td><td class="num">${h} m</td><td class="num">${x(r.poi[h].sun)}</td><td class="num">${sg(ps.mean_dev)} / ${x(ps.rmse)}</td><td class="num">${x(r.poi[h].earth)}</td><td class="num">${sg(pe.mean_dev)} / ${x(pe.rmse)}</td></tr>`;
+  }
+  box.innerHTML = '<table><thead><tr><th>Site</th><th>Observer</th><th>Sun % at POI</th><th>Sun 5x5 mean dev / RMSE (pp)</th><th>Earth % at POI</th><th>Earth 5x5 mean dev / RMSE (pp)</th></tr></thead><tbody>' + rows + '</tbody></table><p class="note">The 25 model points sit on the NASA 60 m pixels of a 5x5 patch around each POI, so unlike the POI row they are not the pixel the site was picked from. ' + b.note + ' Positive deviation: model brighter than the NASA map.</p>';
+}
+
 function loop(prev) {
   return function frame(now) {
     if (app.playing) { setTime(app.tMs + Number($('speed').value) * Math.min(now - prev, 100) / 1000); if (app.tMs >= app.timeline.start + (app.timeline.n - 1) * app.timeline.stepMs) app.tMs = app.timeline.start; }
@@ -255,7 +274,9 @@ function loop(prev) {
 
 async function main() {
   $('tabExplore').onclick = () => tab(true); $('tabValid').onclick = () => tab(false);
-  function tab(ex) { $('explore').hidden = !ex; $('validation').hidden = ex; $('tabExplore').classList.toggle('active', ex); $('tabValid').classList.toggle('active', !ex); app.dirty = true; }
+  $('tabNav').onclick = () => tab('nav');
+  function tab(w) { w = w === true ? 'ex' : w === false ? 'val' : w; $('explore').hidden = w !== 'ex'; $('navigator').hidden = w !== 'nav'; $('validation').hidden = w !== 'val';
+    [['tabExplore', 'ex'], ['tabNav', 'nav'], ['tabValid', 'val']].forEach(([id, k]) => $(id).classList.toggle('active', w === k)); app.dirty = true; }
   let loaded;
   try { loaded = await loadSites(fetchFn); } catch (e) {
     $('loadMsg').textContent = ''; $('views').innerHTML = '<p class="empty">No data available. ' + String(e.message).replace(/</g, '&lt;') + '</p>';
@@ -266,6 +287,14 @@ async function main() {
   $('loadMsg').textContent = 'Data: ' + app.base + (app.mock ? ' (mock)' : '');
   app.summary = await loadOptional(fetchFn, app.base, 'summary.json');
   renderValidation(await loadOptional(fetchFn, app.base, 'validation.json'));
+  renderBand(await loadOptional(fetchFn, app.base, 'validation_band.json'));
+  initNavigator({ sites: app.sites, base: app.base, siteData });
+  const sonic = new Sonifier();
+  app.sonic = sonic;
+  $('sonify').onclick = () => {
+    if (sonic.on) sonic.stop(); else if (!sonic.start()) { $('sonify').textContent = 'Sound unavailable'; return; }
+    $('sonify').textContent = 'Sound: ' + (sonic.on ? 'on' : 'off'); $('sonify').setAttribute('aria-pressed', String(sonic.on)); app.dirty = true;
+  };
   app.views.push(new View($('views'), app.sites[0].id, 0));
   $('compare').onchange = relayout;
   $('slider').oninput = e => { const { start, stepMs } = app.timeline; setTime(start + Number(e.target.value) * stepMs); };
