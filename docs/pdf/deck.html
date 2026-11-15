@@ -26,14 +26,15 @@ a{color:#5fb4ff;text-decoration:none}
 code{font-family:Consolas,monospace;font-size:.9em;color:#ffc857}
 </style></head><body>
 
-<section class="s" style="padding-top:110px">
+<section class="s" style="padding-top:78px">
 <div style="font-size:22px;letter-spacing:3px;color:#5fb4ff;margin-bottom:22px">NASA SPACE APPS CHALLENGE 2026 &middot; ANKARA</div>
 <h1 style="font-size:84px;line-height:1.05;color:#ffc857">Lunar Light Clock</h1>
 <p style="font-size:32px;margin-top:20px;max-width:1000px">A landing-site navigator for the lunar south pole: when are the Sun and the Earth above the real terrain horizon, and for how long are they gone? Runs in a browser, no install.</p>
 <div class="row" style="margin-top:56px">
-<div class="card" style="width:420px"><h3>Team</h3><p style="font-size:28px"><b>Albedo</b></p><p class="muted">Member and captain: Rızgar Ozan</p></div>
+<div class="card" style="width:420px"><h3>Team</h3><p style="font-size:28px"><b>Albedo</b></p><p class="muted">Team captain: Rızgar Ozan</p></div>
 <div class="card" style="width:560px"><h3>Challenge</h3><p style="font-size:28px"><b>Lunar Landing Site Navigator</b></p><p class="muted">NASA Space Apps Challenge 2026, Ankara</p></div>
 </div>
+<p style="position:absolute;bottom:80px;left:64px;right:64px;font-size:20px;line-height:1.35">Built for an Artemis landing-site planner: pick a site and a landing day, see how long the lander will be without power or without a direct link to Earth, and when the launch slips, see at once whether to keep the site or switch.</p>
 <p class="muted" style="position:absolute;bottom:40px;left:64px;font-size:20px">Candidate sites: Shackleton rim &middot; Nobile rim &middot; Malapert summit</p>
 <div class="pn">1 / 7</div></section>
 
@@ -104,7 +105,7 @@ code{font-family:Consolas,monospace;font-size:.9em;color:#ffc857}
 </div>
 <div style="width:530px;display:flex;flex-direction:column;gap:10px">
 <div class="card" style="padding:9px 16px"><p style="font-size:18px"><b class="y">Independent horizon code</b> (every cell 4-30 km, no rays): mean horizon difference 0.09-0.12&deg;, max 0.41&deg;, Sun fraction within 1 point.</p></div>
-<div class="card" style="padding:9px 16px"><p style="font-size:18px"><b class="y">Multi-year 2026-2044</b> (one full 18.6-year cycle): Sun fraction spread 2.9-3.1 points, longest dark spell 3 h; Earth moves 4.9-9.6 points (libration).</p></div>
+<div class="card" style="padding:9px 16px"><p style="font-size:18px"><b class="y">Multi-year 2026-2044</b> (one full 18.6-year cycle): from year to year the Sun fraction moves 2.9-3.1 points and the longest dark spell at most 3 h; Earth moves 4.9-9.6 points (libration).</p></div>
 <div class="card" style="padding:9px 16px"><p style="font-size:18px"><b class="y">DEM vertical error</b> (Monte Carlo, 20 runs, assumed 1.5 m noise): Sun fraction 5-95% range is 0.3 points wide at Shackleton, 1.0 at Malapert, 1.6 at Nobile.</p></div>
 <div class="card" style="padding:9px 16px"><p style="font-size:18px"><b class="y">Sensitivity:</b> observer height dominates. Shackleton Sun fraction is 45.0% / 86.0% / 90.1% at 0 / 2 / 5 m. Ray range: 94.1% at 2.5 km, 86.0% at 30 km.</p></div>
 </div></div>
@@ -125,7 +126,7 @@ code{font-family:Consolas,monospace;font-size:.9em;color:#ffc857}
 <div style="width:410px">
 <div class="card"><h3>Links</h3>
 <p style="font-size:18px"><b>Live demo</b><br><a href="https://rizgarozan.github.io/albedo-spaceapps/web/">rizgarozan.github.io/albedo-spaceapps/web/</a></p>
-<p style="font-size:18px;margin-top:10px"><b>Code (GitHub)</b><br><a href="https://github.com/RizgarOzan/albedo-spaceapps">github.com/RizgarOzan/albedo-spaceapps</a></p></div><div style="margin-top:14px;height:200px;overflow:hidden;border-radius:8px;border:1px solid #2a3558"><img src="shot_explorer.png" style="width:470px;margin-top:-84px;margin-left:-6px"></div><p class="muted" style="font-size:15px;margin-top:4px">Explorer tab, Shackleton rim, 17 Jan 2027: 3D terrain, horizon strip with Sun and Earth, countdowns.</p>
+<p style="font-size:18px;margin-top:10px"><b>Code (GitHub)</b><br><a href="https://github.com/RizgarOzan/albedo-spaceapps">github.com/RizgarOzan/albedo-spaceapps</a></p></div><div style="margin-top:14px;height:262px;overflow:hidden;border-radius:8px;border:1px solid #2a3558"><img src="shot_planner.png" style="width:470px;margin-top:-188px;margin-left:-6px"></div><p class="muted" style="font-size:15px;margin-top:4px">Planner tab, Shackleton rim: best landing windows of 2027 and the delay scenario (12 Sep plan, +14 days).</p>
 </div></div>
 <div class="ft">Lunar Light Clock &middot; Team Albedo</div><div class="pn">6 / 7</div></section>
 
@@ -139,7 +140,7 @@ code{font-family:Consolas,monospace;font-size:.9em;color:#ffc857}
 <li style="font-size:19px">Software: three.js (MIT); astropy, astroquery, numpy, pandas, matplotlib, requests, spiceypy. NASA Moon Trek and Quickmap used for orientation only.</li>
 <li style="font-size:19px">Code and all numbers: see the GitHub link on page 6 (docs/validation.md)</li>
 </ul>
-<div class="card" style="margin-top:22px"><h3>Use of Super Intelligence (SI)</h3>
+<div class="card" style="margin-top:22px"><h3>Use of AI</h3>
 <p style="font-size:19px">AI coding assistants (Anthropic Claude models and free open-weight models via OpenRouter) helped write the pipeline, viewer, tests and slide text under our direction. We reviewed the code and ran the scripts and tests ourselves. AI produces no number in the app: every value comes from NASA LOLA data and JPL Horizons, validated against NASA's published maps.</p></div>
 <div class="ft">Lunar Light Clock &middot; Team Albedo</div><div class="pn">7 / 7</div></section>
 </body></html>
