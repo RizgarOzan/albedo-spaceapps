@@ -106,8 +106,8 @@ test('latLon <-> pixel round trip and centre', () => {
   assert.ok(Math.abs(b2.row - 50) < 1e-2 && Math.abs(b2.col - 60) < 1e-2);
 });
 test('published patch sampling, ranking, csv, pitch', () => {
-  const site = { dem_size_px: 512 }, bytes = new Uint8Array(256 * 256).fill(255); bytes[0] = 0;
-  assert.equal(L.samplePublished(bytes, 256, site, 400, 400), 1);
+  const site = { dem_size_px: 512 }, bytes = new Uint8Array(513 * 513).fill(255); bytes[0] = 0;
+  assert.equal(L.samplePublished(bytes, 513, site, 400, 400), 1);
   assert.equal(L.samplePublished(null, 256, site, 1, 1), null);
   assert.deepEqual(L.rankRows([{ score: 1 }, { score: 3 }, { score: 2 }]).map(r => r.score), [3, 2, 1]);
   assert.equal(L.toCsv([{ a: 'x,y', b: 2 }], [{ label: 'A', get: r => r.a }, { label: 'B', get: r => r.b }]), 'A,B\n"x,y",2\n');
@@ -120,18 +120,24 @@ test('rim points reading Earth 100%: truncated rays are flagged, centre is not',
   assert.equal(L.rayLengthM(512, 40, 0, 10, 0), 0);
   assert.ok(L.truncatedAz(512, 40, 255.5, 255.5).every(t => !t));
   assert.equal(L.sectorTruncated([160, 161], L.truncatedAz(512, 40, 424, 456)), true);
-  // Shackleton (424, 456): Earth sector ray leaves the window at ~3.7 km, ours reads 100% where NASA's map shows ~55%.
+  // Shackleton (424, 456): Earth sector ray leaves the window at ~3.7 km, so ours reads far above NASA's map (~55%).
+  // The model value itself is known to be wrong here, so only the gap and the flag are checked.
   const s = JSON.parse(readFileSync(join(root, '../data/sites.json'), 'utf8')).find(x => x.id === 'shackleton');
   const b = readFileSync(join(root, '../data/dem/shackleton.bin')), dem = new Float32Array(b.buffer, b.byteOffset, b.length / 4);
   const eph = JSON.parse(readFileSync(join(root, '../data/ephemeris/shackleton.json'), 'utf8'));
   const st = L.seriesStats(eph, L.horizonFromDem(dem, 512, 40, 424, 456, 2));
-  assert.ok(st.earth > 0.999, 'earth ' + st.earth);
   assert.equal(L.sectorTruncated(eph.earth_az, L.truncatedAz(512, 40, 424, 456)), true);
   const pub = new Uint8Array(readFileSync(join(root, '../data/published/shackleton_earth.bin')));
-  const p = L.samplePublished(pub, 256, s, 424, 456);
+  const p = L.samplePublished(pub, 513, s, 424, 456);
   assert.ok(p < 0.7 && st.earth - p > 0.3, 'nasa ' + p);
   assert.equal(L.navScore({ sun: 0.5, earth: 1, darkH: 0 }, p), 0.5 * 0.5 + 0.5 * p); // score uses the lower Earth value
   assert.equal(L.navScore({ sun: 0.5, earth: 0.4, darkH: 0 }, 0.9), 0.45);
+  // the Navigator's NASA patch must read the same value at the site as the Validation table (uint8 rounding only)
+  for (const c of JSON.parse(readFileSync(join(root, '../data/validation.json'), 'utf8')).comparisons) {
+    const key = c.quantity === 'illumination_fraction' ? 'sun' : 'earth';
+    const pc = new Uint8Array(readFileSync(join(root, `../data/published/${c.site}_${key}.bin`)));
+    assert.ok(Math.abs(L.samplePublished(pc, 513, s, 255.5, 255.5) - c.published_at_poi) < 0.004, c.site + ' ' + key);
+  }
 });
 test('data/ passes integrity checks and CHECKSUMS match', async () => {
   const D = await import('../../scripts/check_data.mjs');

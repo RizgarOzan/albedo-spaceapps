@@ -1,5 +1,5 @@
 """Observer-height band (0/2/5 m) and 5x5-patch comparison against the NASA AVGVISIB maps; also writes the
-published-map patches the Navigator uses (data/published/<id>_{sun,earth}.bin, 256x256 uint8 at 80 m/px, fraction*255).
+published-map patches the Navigator uses (data/published/<id>_{sun,earth}.bin, 513x513 uint8 nodes at 40 m, centre node = the site, fraction*255).
 Usage: .venv/Scripts/python scripts/validate_band.py   -> data/validation_band.json"""
 import json, os, sys
 import numpy as np
@@ -30,6 +30,18 @@ def horizon_at(dem, mpp, row, col, obs_h, max_range=30000.0):
 
 def frac(e, hor, body):
     return float(visible(e[body + "_az"], e[body + "_el"], hor).mean())
+
+
+def write_patches(maps, s):
+    """Published maps on the viewer's frame: 513x513 nodes 40 m apart, the middle node is the site itself.
+    (The earlier 256x256 patch at 80 m/px averaged four cells at the site and read 0.64 where the map says 0.87.)"""
+    k = (np.arange(513) - 256) * 40.0
+    east, north = np.meshgrid(k, -k)
+    lat, lon = local_to_latlon(s["lat"], s["lon"], east, north)
+    rr, cc = to_pix(lat, lon, ILL_N, ILL_RES)
+    for key in ("sun", "earth"):
+        v = np.clip(bilinear(maps[key], rr, cc), 0, 1)
+        (np.round(v * 255).astype(np.uint8)).tofile(os.path.join(D, "published", f"{s['id']}_{key}.bin"))
 
 
 def main():
@@ -67,14 +79,7 @@ def main():
                 str(h): dict(model_mean=round(float(np.mean(v)), 4), mean_dev=round(float(np.mean(np.array(v) - pubv)), 4),
                              rmse=round(float(np.sqrt(np.mean((np.array(v) - pubv) ** 2))), 4)) for h, v in mod.items()})
         out["sites"][s["id"]] = rec
-        # published patches on the viewer's frame: 256x256 at 80 m/px, centred on the site
-        k = (np.arange(256) + 0.5) * 80 - 256 * 80 / 2
-        east, north = np.meshgrid(k, -k)
-        lat, lon = local_to_latlon(s["lat"], s["lon"], east, north)
-        rr, cc = to_pix(lat, lon, ILL_N, ILL_RES)
-        for key in ("sun", "earth"):
-            v = np.clip(bilinear(maps[key], rr, cc), 0, 1)
-            (np.round(v * 255).astype(np.uint8)).tofile(os.path.join(D, "published", f"{s['id']}_{key}.bin"))
+        write_patches(maps, s)
         print(s["id"], json.dumps(rec))
     json.dump(out, open(os.path.join(D, "validation_band.json"), "w"), indent=1)
 

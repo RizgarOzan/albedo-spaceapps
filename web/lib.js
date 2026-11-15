@@ -189,10 +189,11 @@ export function seriesStats(eph, horizon) {
   return { sun: sum(sun) / eph.n, earth: sum(earth) / eph.n, darkH: run(sun) * h, noEarthH: run(earth) * h, sunSeries: sun, earthSeries: earth };
 }
 
-// Sample a uint8 published-fraction patch (size x size, spans the DEM window) at a DEM pixel; null if no patch.
+// Sample a uint8 published-fraction patch (size x size nodes spanning the DEM window edge to edge, so the
+// middle node is the site itself) at a DEM pixel; null if no patch.
 export function samplePublished(bytes, size, site, row, col) {
   if (!bytes || bytes.length !== size * size) return null;
-  const f = size / site.dem_size_px, y = (row + 0.5) * f - 0.5, x = (col + 0.5) * f - 0.5;
+  const f = (size - 1) / site.dem_size_px, y = (row + 0.5) * f, x = (col + 0.5) * f;
   if (y < 0 || x < 0 || y > size - 1 || x > size - 1) return null;
   const y0 = Math.min(Math.floor(y), size - 2), x0 = Math.min(Math.floor(x), size - 2), ty = y - y0, tx = x - x0;
   const g = (r, c) => bytes[r * size + c];

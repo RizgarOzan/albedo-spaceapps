@@ -1,7 +1,7 @@
 import { horizonFromDem, truncatedAz, sectorTruncated, seriesStats, latLonToPx, pxToLatLon, samplePublished, candidateGrid, navScore, rankRows, toCsv, NAV_MARGIN_PX, TREK_URL, trekHint } from './lib.js';
 
 const $ = id => document.getElementById(id);
-const PUB = 256, STRIDE = 48;
+const PUB = 513, STRIDE = 48;
 const f4 = v => v == null ? '' : v.toFixed(4);
 export const CSV_COLS = [
   { label: 'rank', get: r => r.rank }, { label: 'lat_deg', get: r => r.lat.toFixed(4) }, { label: 'lon_deg', get: r => r.lon.toFixed(4) },

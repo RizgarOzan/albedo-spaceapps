@@ -59,10 +59,10 @@ export function checkData(root = DEFAULT_ROOT) {
       }
       if (!(e.step_min > 0) || Number.isNaN(Date.parse(e.start_utc))) err(eF, 'bad step_min/start_utc');
     }
-    // published patches: 256*256 uint8 (PUB in navigator.js), optional
+    // published patches: 513*513 uint8 (PUB in navigator.js), optional
     for (const f of ['sun', 'earth']) {
       const pF = 'published/' + s.id + '_' + f + '.bin';
-      if (existsSync(join(root, pF)) && readFileSync(join(root, pF)).length !== 256 * 256) err(pF, 'size != 65536');
+      if (existsSync(join(root, pF)) && readFileSync(join(root, pF)).length !== 513 * 513) err(pF, 'size != 263169');
     }
     // summary fractions in [0, 1], hours within the year
     const m = summary && summary[s.id];

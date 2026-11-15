@@ -52,7 +52,7 @@ class View {
     this.scene = new THREE.Scene(); this.scene.background = new THREE.Color(0x000000);
     this.camera = new THREE.PerspectiveCamera(65, 1, 0.5, 1e6);
     this.light = new THREE.DirectionalLight(0xfff3d6, 2.6); this.scene.add(this.light, this.light.target);
-    this.scene.add(new THREE.AmbientLight(0x303a55, 1.2)); // faint earthshine/starlight look
+    this.scene.add(new THREE.AmbientLight(0x8f97ad, 1.8)); // fill light so shadowed terrain stays readable (brighter than real earthshine)
     this.sunMesh = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 12), new THREE.MeshBasicMaterial({ color: 0xfff1b0 }));
     this.earthMesh = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), new THREE.MeshBasicMaterial({ color: 0x4f9bff }));
     this.scene.add(this.sunMesh, this.earthMesh);
@@ -202,21 +202,23 @@ class View {
         const next = tr ? `${tr.kind === 'set' ? down : up} in <b>${formatCountdown(tr.minutes)}</b> (${formatUtc(app.timeline.start + tr.idx * app.timeline.stepMs).slice(0, 16)})`
           : (this.series ? `No ${up.toLowerCase()}/${down.toLowerCase()} until the end of the window` : '<span class="empty">countdown unavailable</span>');
         return `<div class="card"><h3>${label}</h3><div class="big ${cls}">${fmt(el, 2)}° el, ${fmt(az, 1)}° az</div>
-          <div>Terrain horizon there: ${h ? fmt(horizonAt(h, az), 2) + '°' : '-'}</div><div>${state}</div><div>${next}</div></div>`;
+          <div>Terrain horizon there: ${h ? fmt(horizonAt(h, az), 2) + '°' : '-'}</div><div>${state}</div>${b === 'earth' && this.series ? '' : `<div>${next}</div>`}</div>`;
       };
       html += body('sun', 'Sun', 'sun', 'Sunrise', 'Sunset') + body('earth', 'Earth', 'earth', 'Earthrise', 'Earthset');
       if (this.series) {
         const tr = nextTransition(this.series.earth, i, e.step_min);
-        html += `<div class="card earthset" id="earthset"><b>${tr ? (tr.kind === 'set' ? 'Earthset in ' : 'Earthrise in ') + formatCountdown(tr.minutes) : 'No Earth rise or set in the window'}</b> <span class="muted">(Earth currently ${this.series.earth[i] ? 'above' : 'below'} the terrain horizon)</span></div>`;
+        html += `<div class="card earthset" id="earthset"><b>${tr ? (tr.kind === 'set' ? 'Earthset in ' : 'Earthrise in ') + formatCountdown(tr.minutes) + ' (' + formatUtc(app.timeline.start + tr.idx * app.timeline.stepMs).slice(0, 16) + ')' : 'No Earth rise or set in the window'}</b> <span class="muted">(Earth currently ${this.series.earth[i] ? 'above' : 'below'} the terrain horizon)</span></div>`;
       }
       if (app.sonic && app.sonic.on && this === app.views[0]) app.sonic.update(e.sun_el[i], this.series ? !!this.series.sun[i] : e.sun_el[i] > 0);
     }
     const st = app.summary && app.summary[this.siteId];
+    const bp = app.band && app.band.sites && app.band.sites[this.siteId] && app.band.sites[this.siteId].poi;
+    const hNote = bp ? `<p class="note">These numbers assume an observer 2 m above the ground, and they swing a lot with that height: the sunlit fraction at this point is ${pct(bp['0'].sun)} at 0 m, ${pct(bp['2'].sun)} at 2 m and ${pct(bp['5'].sun)} at 5 m. Treat them as rough (see Validation).</p>` : '';
     if (!st) html += '<div class="card wide empty">No yearly statistics available (summary.json missing or has no entry for this site).</div>';
     else html += `<div class="card wide"><h3>2027 statistics</h3><div class="stats">
       <div>Sunlit fraction<b>${pct(st.illumination_fraction)}</b></div><div>Longest dark spell<b>${fmt(st.longest_dark_hours, 0)} h</b></div>
       <div>Earth visible<b>${pct(st.earth_visible_fraction)}</b></div><div>Longest no-Earth spell<b>${fmt(st.longest_no_earth_hours, 0)} h</b></div>
-      <div>Mean Sun elevation when up<b>${fmt(st.mean_sun_el_when_up, 2)}°</b></div></div>${app.multiyear && multiyearNote(app.multiyear, this.siteId) ? `<p class="note">${multiyearNote(app.multiyear, this.siteId)}</p>` : ''}</div>`;
+      <div>Mean Sun elevation when up<b>${fmt(st.mean_sun_el_when_up, 2)}°</b></div></div>${app.multiyear && multiyearNote(app.multiyear, this.siteId) ? `<p class="note">${multiyearNote(app.multiyear, this.siteId)}</p>` : ''}${hNote}</div>`;
     P.innerHTML = html;
   }
 }
@@ -315,7 +317,8 @@ async function main() {
   app.summary = await loadOptional(fetchFn, app.base, 'summary.json');
   app.multiyear = await loadOptional(fetchFn, app.base, 'multiyear.json');
   renderValidation(await loadOptional(fetchFn, app.base, 'validation.json'));
-  renderBand(await loadOptional(fetchFn, app.base, 'validation_band.json'));
+  app.band = await loadOptional(fetchFn, app.base, 'validation_band.json');
+  renderBand(app.band);
   initNavigator({ sites: app.sites, base: app.base, siteData });
   planner = initPlanner({ sites: app.sites, siteData });
   const sonic = new Sonifier();
