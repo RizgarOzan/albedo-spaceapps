@@ -29,7 +29,7 @@ code{font-family:Consolas,monospace;font-size:.9em;color:#ffc857}
 <section class="s" style="padding-top:110px">
 <div style="font-size:22px;letter-spacing:3px;color:#5fb4ff;margin-bottom:22px">NASA SPACE APPS CHALLENGE 2026 &middot; ANKARA</div>
 <h1 style="font-size:84px;line-height:1.05;color:#ffc857">Lunar Light Clock</h1>
-<p style="font-size:32px;margin-top:20px;max-width:1000px">When do the Sun and the Earth stand above the horizon at a south-pole landing site? One page, no install.</p>
+<p style="font-size:32px;margin-top:20px;max-width:1000px">A landing-site navigator for the lunar south pole: when are the Sun and the Earth above the real terrain horizon, and for how long are they gone? Runs in a browser, no install.</p>
 <div class="row" style="margin-top:56px">
 <div class="card" style="width:420px"><h3>Team</h3><p style="font-size:28px"><b>Albedo</b></p><p class="muted">Member and captain: Rızgar Ozan</p></div>
 <div class="card" style="width:560px"><h3>Challenge</h3><p style="font-size:28px"><b>Lunar Landing Site Navigator</b></p><p class="muted">NASA Space Apps Challenge 2026, Ankara</p></div>
@@ -46,7 +46,7 @@ code{font-family:Consolas,monospace;font-size:.9em;color:#ffc857}
 <li>Earth is often below the horizon too, so <b class="b">line of sight</b> to Earth is not guaranteed.</li>
 <li>If the launch slips, the whole plan changes: a different landing day means a different dark spell and a different Earth gap.</li>
 <li>Planners need, per site and date: is the Sun up, is Earth up, and for how long are both missing?</li>
-</ul></div>
+</ul><div class="card" style="margin-top:14px;padding:12px 16px"><h3>Example from the Planner tab</h3><div style="height:36px;overflow:hidden;border-radius:4px;margin:6px 0 8px"><img src="shot_planner.png" style="width:590px;margin-top:-170px;margin-left:-9px"></div><p style="font-size:18px;line-height:1.3">Best 2027 window at Shackleton: land on <b>12 Sep</b> (Sun 100%, Earth 93% of the next 14 days). Slip <b>14 days</b> and Earth drops to <b class="r">0%</b> (336 h without Earth); Malapert becomes the best option (score 60%).</p></div></div>
 <div style="width:540px">
 <div class="card" style="margin-bottom:18px"><h3>What we built</h3>
 <ul>
@@ -86,13 +86,13 @@ code{font-family:Consolas,monospace;font-size:.9em;color:#ffc857}
 <section class="s">
 <h2 style="margin-bottom:12px">Results: three sites, one year (2027)</h2>
 <table style="margin-bottom:14px">
-<tr><th>Site</th><th>Sun visible</th><th>Longest darkness</th><th>Earth visible</th><th>Longest without Earth</th></tr>
+<tr><th>Site</th><th>Sun visible*</th><th>Longest darkness</th><th>Earth visible*</th><th>Longest without Earth</th></tr>
 <tr><td>Shackleton rim</td><td class="y">86.0%</td><td>147 h</td><td class="b">45.9%</td><td class="r">354 h</td></tr>
 <tr><td>Nobile rim</td><td class="y">88.0%</td><td>151 h</td><td class="b">59.1%</td><td class="r">273 h</td></tr>
 <tr><td>Malapert summit</td><td class="y">64.6%</td><td class="r">341 h</td><td class="b">79.5%</td><td>143 h</td></tr>
 </table>
-<img src="fig_horizon.png" style="width:1152px;margin-top:6px">
-<p class="muted" style="font-size:17px;margin-top:2px;line-height:1.3">Horizon (30 km ray march) with the Sun and Earth tracks, hourly, 2027. Where a dot sits below the white line, that body is hidden by terrain. Sun fractions are upper bounds (see limits). Trade-off: Malapert has Earth most of the time, Shackleton and Nobile have the Sun.</p>
+<img src="fig_horizon.png" style="width:1000px;margin-top:2px;display:block;margin-left:auto;margin-right:auto">
+<p class="muted" style="font-size:17px;margin-top:2px;line-height:1.3">Horizon (30 km ray march) with hourly Sun and Earth tracks, 2027; below the white line a body is hidden. *Percent of the 8,760 hours of 2027; Sun fractions are upper bounds (see limits). <b style="color:#e8ecf5">What a planner takes from this:</b> Malapert keeps Earth in view 79.5% of the year but has a 341 h dark spell, so it needs the largest battery. Shackleton and Nobile keep the Sun 86-88% of the time but lose Earth for up to 354 h and 273 h, so they need a relay or on-board data storage for those gaps.</p>
 <div class="ft">Lunar Light Clock &middot; Team Albedo</div><div class="pn">4 / 7</div></section>
 
 <section class="s">
@@ -125,7 +125,7 @@ code{font-family:Consolas,monospace;font-size:.9em;color:#ffc857}
 <div style="width:410px">
 <div class="card"><h3>Links</h3>
 <p style="font-size:18px"><b>Live demo</b><br><a href="https://rizgarozan.github.io/albedo-spaceapps/web/">rizgarozan.github.io/albedo-spaceapps/web/</a></p>
-<p style="font-size:18px;margin-top:10px"><b>Code (GitHub)</b><br><a href="https://github.com/RizgarOzan/albedo-spaceapps">github.com/RizgarOzan/albedo-spaceapps</a></p></div>
+<p style="font-size:18px;margin-top:10px"><b>Code (GitHub)</b><br><a href="https://github.com/RizgarOzan/albedo-spaceapps">github.com/RizgarOzan/albedo-spaceapps</a></p></div><div style="margin-top:14px;height:200px;overflow:hidden;border-radius:8px;border:1px solid #2a3558"><img src="shot_explorer.png" style="width:470px;margin-top:-84px;margin-left:-6px"></div><p class="muted" style="font-size:15px;margin-top:4px">Explorer tab, Shackleton rim, 17 Jan 2027: 3D terrain, horizon strip with Sun and Earth, countdowns.</p>
 </div></div>
 <div class="ft">Lunar Light Clock &middot; Team Albedo</div><div class="pn">6 / 7</div></section>
 
