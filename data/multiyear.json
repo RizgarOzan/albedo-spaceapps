@@ -56,14 +56,74 @@
      "earth_frac": 0.5135,
      "longest_dark_h": 147,
      "longest_no_earth_h": 338
+    },
+    "2035": {
+     "sun_frac": 0.8524,
+     "earth_frac": 0.5545,
+     "longest_dark_h": 147,
+     "longest_no_earth_h": 319
+    },
+    "2036": {
+     "sun_frac": 0.8615,
+     "earth_frac": 0.4694,
+     "longest_dark_h": 147,
+     "longest_no_earth_h": 350
+    },
+    "2037": {
+     "sun_frac": 0.8537,
+     "earth_frac": 0.4781,
+     "longest_dark_h": 147,
+     "longest_no_earth_h": 353
+    },
+    "2038": {
+     "sun_frac": 0.8605,
+     "earth_frac": 0.4755,
+     "longest_dark_h": 148,
+     "longest_no_earth_h": 350
+    },
+    "2039": {
+     "sun_frac": 0.8629,
+     "earth_frac": 0.463,
+     "longest_dark_h": 148,
+     "longest_no_earth_h": 353
+    },
+    "2040": {
+     "sun_frac": 0.8612,
+     "earth_frac": 0.536,
+     "longest_dark_h": 147,
+     "longest_no_earth_h": 331
+    },
+    "2041": {
+     "sun_frac": 0.8627,
+     "earth_frac": 0.5258,
+     "longest_dark_h": 145,
+     "longest_no_earth_h": 327
+    },
+    "2042": {
+     "sun_frac": 0.8628,
+     "earth_frac": 0.4986,
+     "longest_dark_h": 146,
+     "longest_no_earth_h": 352
+    },
+    "2043": {
+     "sun_frac": 0.8612,
+     "earth_frac": 0.4621,
+     "longest_dark_h": 148,
+     "longest_no_earth_h": 353
+    },
+    "2044": {
+     "sun_frac": 0.8607,
+     "earth_frac": 0.4779,
+     "longest_dark_h": 147,
+     "longest_no_earth_h": 351
     }
    },
    "spread_pts": {
     "sun": 2.85,
-    "earth": 8.09
+    "earth": 9.59
    },
    "spread_h": {
-    "longest_dark": 2,
+    "longest_dark": 3,
     "longest_no_earth": 35
    }
   },
@@ -122,15 +182,75 @@
      "earth_frac": 0.6167,
      "longest_dark_h": 151,
      "longest_no_earth_h": 251
+    },
+    "2035": {
+     "sun_frac": 0.8624,
+     "earth_frac": 0.6377,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 253
+    },
+    "2036": {
+     "sun_frac": 0.8806,
+     "earth_frac": 0.5853,
+     "longest_dark_h": 150,
+     "longest_no_earth_h": 274
+    },
+    "2037": {
+     "sun_frac": 0.8716,
+     "earth_frac": 0.5769,
+     "longest_dark_h": 149,
+     "longest_no_earth_h": 287
+    },
+    "2038": {
+     "sun_frac": 0.8801,
+     "earth_frac": 0.5662,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 288
+    },
+    "2039": {
+     "sun_frac": 0.8787,
+     "earth_frac": 0.5959,
+     "longest_dark_h": 152,
+     "longest_no_earth_h": 272
+    },
+    "2040": {
+     "sun_frac": 0.8783,
+     "earth_frac": 0.6385,
+     "longest_dark_h": 150,
+     "longest_no_earth_h": 249
+    },
+    "2041": {
+     "sun_frac": 0.8831,
+     "earth_frac": 0.6111,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 257
+    },
+    "2042": {
+     "sun_frac": 0.8806,
+     "earth_frac": 0.6079,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 277
+    },
+    "2043": {
+     "sun_frac": 0.8808,
+     "earth_frac": 0.5629,
+     "longest_dark_h": 150,
+     "longest_no_earth_h": 287
+    },
+    "2044": {
+     "sun_frac": 0.8781,
+     "earth_frac": 0.5685,
+     "longest_dark_h": 149,
+     "longest_no_earth_h": 287
     }
    },
    "spread_pts": {
-    "sun": 2.76,
+    "sun": 2.86,
     "earth": 7.65
    },
    "spread_h": {
-    "longest_dark": 2,
-    "longest_no_earth": 35
+    "longest_dark": 3,
+    "longest_no_earth": 39
    }
   },
   "malapert": {
@@ -188,15 +308,75 @@
      "earth_frac": 0.8176,
      "longest_dark_h": 342,
      "longest_no_earth_h": 128
+    },
+    "2035": {
+     "sun_frac": 0.6395,
+     "earth_frac": 0.8418,
+     "longest_dark_h": 342,
+     "longest_no_earth_h": 115
+    },
+    "2036": {
+     "sun_frac": 0.6503,
+     "earth_frac": 0.8187,
+     "longest_dark_h": 340,
+     "longest_no_earth_h": 123
+    },
+    "2037": {
+     "sun_frac": 0.6663,
+     "earth_frac": 0.812,
+     "longest_dark_h": 340,
+     "longest_no_earth_h": 137
+    },
+    "2038": {
+     "sun_frac": 0.6392,
+     "earth_frac": 0.7929,
+     "longest_dark_h": 342,
+     "longest_no_earth_h": 143
+    },
+    "2039": {
+     "sun_frac": 0.6682,
+     "earth_frac": 0.7986,
+     "longest_dark_h": 341,
+     "longest_no_earth_h": 140
+    },
+    "2040": {
+     "sun_frac": 0.6629,
+     "earth_frac": 0.8296,
+     "longest_dark_h": 339,
+     "longest_no_earth_h": 125
+    },
+    "2041": {
+     "sun_frac": 0.6543,
+     "earth_frac": 0.8298,
+     "longest_dark_h": 341,
+     "longest_no_earth_h": 115
+    },
+    "2042": {
+     "sun_frac": 0.6678,
+     "earth_frac": 0.8321,
+     "longest_dark_h": 341,
+     "longest_no_earth_h": 127
+    },
+    "2043": {
+     "sun_frac": 0.6607,
+     "earth_frac": 0.8009,
+     "longest_dark_h": 340,
+     "longest_no_earth_h": 137
+    },
+    "2044": {
+     "sun_frac": 0.6644,
+     "earth_frac": 0.7992,
+     "longest_dark_h": 340,
+     "longest_no_earth_h": 144
     }
    },
    "spread_pts": {
     "sun": 3.11,
-    "earth": 3.84
+    "earth": 4.89
    },
    "spread_h": {
-    "longest_dark": 2,
-    "longest_no_earth": 26
+    "longest_dark": 3,
+    "longest_no_earth": 29
    }
   }
  }
