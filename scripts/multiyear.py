@@ -1,4 +1,4 @@
-"""Same Sun/Earth visibility numbers as the 2027 run, for 2026 and 2028 as well.
+"""Same Sun/Earth visibility numbers as the 2027 run, for 2026 to 2034 (9 years, about half a lunar node cycle).
 Horizons calls only (hourly, 365 d, cached in data/cache); DEM windows already in data/. 2027 is recomputed from
 data/ephemeris so all three years go through the same code path.
 Usage: python scripts/multiyear.py   -> data/multiyear.json"""
@@ -12,7 +12,7 @@ from extend_range import big_dem
 
 D = os.path.join(ROOT, "data")
 CACHE = os.path.join(D, "cache")
-YEARS = (2026, 2027, 2028)
+YEARS = tuple(range(2026, 2035))
 
 
 def _query(s, target, start, stop):
@@ -62,7 +62,7 @@ def eph_for(s, year):
 
 def main():
     out = dict(note="Hourly Horizons ephemerides, 365 d from Jan 1 of each year, 2 m observer, 30 km rays, Sun disc centre, "
-                    "same 512x512 40 m DEM windows. 2027 is the existing ephemeris. spread_pts = (max - min over the three "
+                    "same 512x512 40 m DEM windows. 2027 is the existing ephemeris. spread_pts = (max - min over all the "
                     "years) * 100 for the fractions; spread_h for the longest spells.", sites={})
     for s in json.load(open(os.path.join(D, "sites.json"))):
         dem = big_dem(s)

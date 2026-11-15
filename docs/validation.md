@@ -99,3 +99,7 @@ A second horizon code with a different method: no ray, every DEM cell between 4 
 | Malapert | 0.10 deg | 0.41 deg | 0.982 / 0.979 | 54 / 58 |
 
 (The Sun fractions here are higher than the main results because the 0 to 4 km band is left out of both columns; only the agreement between the two methods matters.) So the far-field ray march (4 to 30 km) agrees with a brute-force check to about 0.1 deg and 1 Sun point, and this closes "no independent horizon code". It is still the same DEM, so DEM error (LOLA vertical error about 1 m or more) is not tested by it.
+
+## Nine-year check (2026 to 2034)
+
+`scripts/multiyear.py` now runs 2026 to 2034, the same code path, about half of the 18.6-year cycle. Spread over the nine years: Sun 2.8 points (Shackleton), 2.8 (Nobile), 3.1 (Malapert); Earth 8.1, 7.7 and 3.8 points; longest dark spell 2 h at all three sites. Shackleton Sun fraction runs 0.838 (2032) to 0.866 (2028). The full 18.6 years is not run, so the single-year 2027 Sun values are stable to about 3 points over nine years, not proven over the whole cycle.

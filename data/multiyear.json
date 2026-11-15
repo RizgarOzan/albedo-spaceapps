@@ -1,5 +1,5 @@
 {
- "note": "Hourly Horizons ephemerides, 365 d from Jan 1 of each year, 2 m observer, 10.24 km rays, Sun disc centre, same 512x512 40 m DEM windows. 2027 is the existing ephemeris. spread_pts = (max - min over the three years) * 100 for the fractions; spread_h for the longest spells.",
+ "note": "Hourly Horizons ephemerides, 365 d from Jan 1 of each year, 2 m observer, 30 km rays, Sun disc centre, same 512x512 40 m DEM windows. 2027 is the existing ephemeris. spread_pts = (max - min over all the years) * 100 for the fractions; spread_h for the longest spells.",
  "sites": {
   "shackleton": {
    "years": {
@@ -20,15 +20,51 @@
      "earth_frac": 0.5395,
      "longest_dark_h": 147,
      "longest_no_earth_h": 339
+    },
+    "2029": {
+     "sun_frac": 0.8612,
+     "earth_frac": 0.5265,
+     "longest_dark_h": 147,
+     "longest_no_earth_h": 319
+    },
+    "2030": {
+     "sun_frac": 0.8634,
+     "earth_frac": 0.4918,
+     "longest_dark_h": 146,
+     "longest_no_earth_h": 352
+    },
+    "2031": {
+     "sun_frac": 0.8548,
+     "earth_frac": 0.4659,
+     "longest_dark_h": 147,
+     "longest_no_earth_h": 353
+    },
+    "2032": {
+     "sun_frac": 0.8379,
+     "earth_frac": 0.4731,
+     "longest_dark_h": 148,
+     "longest_no_earth_h": 352
+    },
+    "2033": {
+     "sun_frac": 0.8571,
+     "earth_frac": 0.4783,
+     "longest_dark_h": 148,
+     "longest_no_earth_h": 352
+    },
+    "2034": {
+     "sun_frac": 0.8401,
+     "earth_frac": 0.5135,
+     "longest_dark_h": 147,
+     "longest_no_earth_h": 338
     }
    },
    "spread_pts": {
-    "sun": 0.64,
+    "sun": 2.85,
     "earth": 8.09
    },
    "spread_h": {
-    "longest_dark": 0,
-    "longest_no_earth": 15
+    "longest_dark": 2,
+    "longest_no_earth": 35
    }
   },
   "nobile": {
@@ -50,15 +86,51 @@
      "earth_frac": 0.6394,
      "longest_dark_h": 151,
      "longest_no_earth_h": 252
+    },
+    "2029": {
+     "sun_frac": 0.8735,
+     "earth_frac": 0.6104,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 255
+    },
+    "2030": {
+     "sun_frac": 0.8821,
+     "earth_frac": 0.6068,
+     "longest_dark_h": 150,
+     "longest_no_earth_h": 279
+    },
+    "2031": {
+     "sun_frac": 0.8772,
+     "earth_frac": 0.5683,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 286
+    },
+    "2032": {
+     "sun_frac": 0.8545,
+     "earth_frac": 0.5629,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 286
+    },
+    "2033": {
+     "sun_frac": 0.8758,
+     "earth_frac": 0.6079,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 274
+    },
+    "2034": {
+     "sun_frac": 0.8664,
+     "earth_frac": 0.6167,
+     "longest_dark_h": 151,
+     "longest_no_earth_h": 251
     }
    },
    "spread_pts": {
-    "sun": 0.06,
-    "earth": 6.79
+    "sun": 2.76,
+    "earth": 7.65
    },
    "spread_h": {
     "longest_dark": 2,
-    "longest_no_earth": 34
+    "longest_no_earth": 35
    }
   },
   "malapert": {
@@ -80,15 +152,51 @@
      "earth_frac": 0.8299,
      "longest_dark_h": 341,
      "longest_no_earth_h": 132
+    },
+    "2029": {
+     "sun_frac": 0.659,
+     "earth_frac": 0.8284,
+     "longest_dark_h": 340,
+     "longest_no_earth_h": 118
+    },
+    "2030": {
+     "sun_frac": 0.6381,
+     "earth_frac": 0.8318,
+     "longest_dark_h": 340,
+     "longest_no_earth_h": 127
+    },
+    "2031": {
+     "sun_frac": 0.6687,
+     "earth_frac": 0.8061,
+     "longest_dark_h": 342,
+     "longest_no_earth_h": 139
+    },
+    "2032": {
+     "sun_frac": 0.6521,
+     "earth_frac": 0.7934,
+     "longest_dark_h": 341,
+     "longest_no_earth_h": 144
+    },
+    "2033": {
+     "sun_frac": 0.6457,
+     "earth_frac": 0.808,
+     "longest_dark_h": 342,
+     "longest_no_earth_h": 141
+    },
+    "2034": {
+     "sun_frac": 0.6648,
+     "earth_frac": 0.8176,
+     "longest_dark_h": 342,
+     "longest_no_earth_h": 128
     }
    },
    "spread_pts": {
-    "sun": 2.34,
-    "earth": 3.49
+    "sun": 3.11,
+    "earth": 3.84
    },
    "spread_h": {
-    "longest_dark": 1,
-    "longest_no_earth": 12
+    "longest_dark": 2,
+    "longest_no_earth": 26
    }
   }
  }
