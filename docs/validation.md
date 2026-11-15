@@ -51,7 +51,7 @@ What it says: for Earth the 5 m row has the smallest bias at all three sites (Sh
 
 ## Sensitivity (`scripts/sensitivity.py`, `data/sensitivity.json`)
 
-Same DEM windows (30 km) and 2027 hourly ephemerides as everywhere else; only the maximum ray length (2 m observer) or the observer height (full 30 km) changes. Since 2026-11-15 the runs use a 64 km LDEM window (1600 x 1600 px at 40 m, `scripts/extend_range.py`) so rays can go to 30 km; before that the window was 20.48 km and the limit 10.24 km. This is a convergence test of our own model, not a comparison with an outside source. Nothing beyond the 10.24 km window was computed (no DEM there), so the true limit is not measured.
+Same DEM windows (30 km) and 2027 hourly ephemerides as everywhere else; only the maximum ray length (2 m observer) or the observer height (full 30 km) changes. Since 2026-11-15 the runs use a 64 km LDEM window (1600 x 1600 px at 40 m, `scripts/extend_range.py`) so rays can go to 30 km; before that the window was 20.48 km and the limit 10.24 km. This is a convergence test of our own model, not a comparison with an outside source. Nothing beyond 30 km was computed, so the true limit is not measured.
 
 Ray range, Sun fraction / longest dark spell (h) / Earth fraction / largest horizon change vs the 30 km run (the 10.24 km column is what the model gave before 2026-11-15):
 
@@ -71,10 +71,10 @@ Observer height at 30 km, Sun fraction / longest dark spell (h) / Earth fraction
 
 What it says:
 - Update 2026-11-15, 30 km: the earlier objection that nothing beyond 10.24 km was tested is now closed by measurement. Shackleton still moved after 10.24 km: Sun fraction 0.887 -> 0.870 (20 km) -> 0.860 (30 km), longest dark spell 102 h -> 147 h, largest horizon change 6.4 deg. Nobile moved 0.896 -> 0.880 and its dark spell 138 -> 151 h. Malapert did not move (0.646). Between 20 and 30 km the horizon changed only at Shackleton (1.9 deg at some azimuths), so the model has converged to the resolution that matters, but ranges beyond 30 km were not run. The 5x5 patch check and observer-height band table below were re-run with 30 km rays on 2026-11-15.
-- Earlier 10.24 km result, kept as a correction note: Shackleton looked unconverged then; the 30 km run confirms ridges beyond 10.24 km lowered it, as the jury expected.
-- Longest dark spell and Earth fraction did not change with range at the three sites (Shackleton longest no-Earth spell 345 h at 2.5 km, 354 h from 5 km on).
+- Earlier 10.24 km result, kept as a correction note: Shackleton looked unconverged then; the 30 km run confirms ridges beyond 10.24 km lowered it.
+- Earth fraction barely changed with range at the three sites (Shackleton longest no-Earth spell 345 h at 2.5 km, 354 h from 5 km on). The longest dark spell did change: 102 h -> 147 h at Shackleton and 138 h -> 151 h at Nobile.
 - Observer height matters far more than range: 0 to 2 m moves the Sun fraction by 0.16 to 0.43 and 2 to 5 m by 0.04 to 0.10 (see the earlier caveat on 0 m vs 2 m). Longest dark spell at Shackleton: 539 h at 0 m, 147 h at 2 m, 74 h at 5 m.
-- Still one model; an independent horizon code was not run (not measured). Other years were run, see the next section.
+- A second horizon code and other years were run later, see the sections below.
 
 ## Three-year check (2026, 2027, 2028)
 
@@ -86,7 +86,7 @@ What it says:
 | Nobile rim | 0.879 / 0.880 / 0.879 | 0.572 / 0.591 / 0.639 | 149 / 151 / 151 |
 | Malapert summit | 0.669 / 0.646 / 0.663 | 0.799 / 0.795 / 0.830 | 340 / 341 / 341 |
 
-Spread between the three years: Sun 0.1 to 2.3 points, Earth 3.5 to 8.1 points (Earth moves most because libration changes from year to year). So the single-year 2027 Sun values are stable to a few points across 2026 to 2028, which makes a year-count mismatch an unlikely main cause of the 2 to 8 point Sun differences to NASA's map. This is three years, not the 18.6-year nutation cycle, and the range limit of 10.24 km is unchanged (no DEM beyond it, not measured).
+Spread between the three years: Sun 0.1 to 2.3 points, Earth 3.5 to 8.1 points (Earth moves most because libration changes from year to year). So the single-year 2027 Sun values are stable to a few points across 2026 to 2028, which makes a year-count mismatch an unlikely main cause of the 2 to 8 point Sun differences to NASA's map. This is three years, not the 18.6-year nutation cycle (the nineteen-year check below covers that), and rays still stop at 30 km.
 
 ## Independent horizon check (2026-11-15, `scripts/independent_horizon.py`, `data/independent_horizon.json`)
 

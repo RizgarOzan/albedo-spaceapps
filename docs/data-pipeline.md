@@ -3,6 +3,7 @@
 Reproduce everything (needs internet; about 10 minutes, mostly JPL Horizons):
 
     .venv\Scripts\python scripts\build_data.py     # DEM windows, horizons, ephemerides, summary.json
+    .venv\Scripts\python scripts\extend_range.py   # 64 km DEM windows, 30 km horizons (the numbers the site shows)
     .venv\Scripts\python scripts\validate.py       # validation.json (docs/validation.md is the written analysis)
 
 `scripts/lunar.py` holds the shared geometry. Large downloads are cached in `data/cache/` (not committed).
@@ -27,7 +28,7 @@ NASA/PDS and JPL data are public domain; credit "NASA/GSFC/LRO LOLA Science Team
 
 The three points are chosen by rule from LOLA data, they are not NASA's official region centroids (not found in a citable source):
 
-- Shackleton: highest average-illumination pixel (87%, from the NASA map) on the rim ring 8-12 km from the crater centre (USGS Gazetteer 89.67S, 129.78E, 21 km). The user hint "89.9S" has no meaningful longitude; we use the rim, not the crater floor, which is in permanent shadow (map value 0).
+- Shackleton: highest average-illumination pixel (87%, from the NASA map) on the rim ring 8-12 km from the crater centre (USGS Gazetteer 89.67S, 129.78E, 21 km). We use the rim, not the crater floor, which is in permanent shadow (map value 0).
 - Nobile: highest average-illumination pixel on the ring 30-45 km from the nominal crater centre (85.2S, 53.3E).
 - Malapert: DEM summit (5.17 km) within 6 km of 85.9S, 0E, i.e. 85.99S, 2.06E (Wikipedia/IAU place the summit near 0-3E).
 

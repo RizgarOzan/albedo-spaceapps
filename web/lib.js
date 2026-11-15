@@ -264,5 +264,5 @@ export function multiyearNote(my, id) {
   const s = my && my.sites && my.sites[id];
   if (!s || !s.spread_pts || !s.years) return '';
   const ys = Object.keys(s.years);
-  return `Over ${ys[0]}-${ys[ys.length - 1]} the Sun fraction moves ${s.spread_pts.sun.toFixed(1)} points and the Earth fraction ${s.spread_pts.earth.toFixed(1)} points, so treat the 2027 values as +/- about half of that.`;
+  return `Over ${ys[0]}-${ys[ys.length - 1]} the Sun fraction moves ${s.spread_pts.sun.toFixed(1)} points and the Earth fraction ${s.spread_pts.earth.toFixed(1)} points, so the year matters less than the gap to the NASA map (up to about 10 points, see Validation).`;
 }

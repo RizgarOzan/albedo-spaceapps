@@ -24,7 +24,7 @@ function siteData(id) {
 }
 
 class View {
-  constructor(parent, siteId, index) {
+  constructor(parent, siteId) {
     this.siteId = siteId; this.az = 90; this.pitch = 3; this.data = null; this.series = null;
     const el = this.el = document.createElement('section'); el.className = 'view';
     el.innerHTML = `<div class="vhead"><select aria-label="Site"></select><button class="btn" type="button" data-face="sun">Face Sun</button><button type="button" data-face="earth">Face Earth</button></div>
@@ -52,7 +52,7 @@ class View {
     this.scene = new THREE.Scene(); this.scene.background = new THREE.Color(0x000000);
     this.camera = new THREE.PerspectiveCamera(65, 1, 0.5, 1e6);
     this.light = new THREE.DirectionalLight(0xfff3d6, 2.6); this.scene.add(this.light, this.light.target);
-    this.scene.add(new THREE.AmbientLight(0x303a55, 0.35)); // faint earthshine/starlight look
+    this.scene.add(new THREE.AmbientLight(0x303a55, 1.2)); // faint earthshine/starlight look
     this.sunMesh = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 12), new THREE.MeshBasicMaterial({ color: 0xfff1b0 }));
     this.earthMesh = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), new THREE.MeshBasicMaterial({ color: 0x4f9bff }));
     this.scene.add(this.sunMesh, this.earthMesh);
@@ -211,7 +211,7 @@ class View {
       }
       if (app.sonic && app.sonic.on && this === app.views[0]) app.sonic.update(e.sun_el[i], this.series ? !!this.series.sun[i] : e.sun_el[i] > 0);
     }
-    const st = app.summary && (app.summary[this.siteId] || (Array.isArray(app.summary) && app.summary.find(x => x.id === this.siteId)));
+    const st = app.summary && app.summary[this.siteId];
     if (!st) html += '<div class="card wide empty">No yearly statistics available (summary.json missing or has no entry for this site).</div>';
     else html += `<div class="card wide"><h3>2027 statistics</h3><div class="stats">
       <div>Sunlit fraction<b>${pct(st.illumination_fraction)}</b></div><div>Longest dark spell<b>${fmt(st.longest_dark_hours, 0)} h</b></div>
@@ -232,19 +232,22 @@ function relayout() {
   box.classList.toggle('two', two);
   if (two && app.views.length < 2) {
     const other = app.sites.find(s => s.id !== app.views[0].siteId) || app.sites[0];
-    app.views.push(new View(box, other.id, 1));
+    app.views.push(new View(box, other.id));
   } else if (!two && app.views.length > 1) { const v = app.views.pop(); v.el.remove(); if (v.renderer) v.renderer.dispose(); }
   app.dirty = true;
 }
+
+const METRIC = { illumination_fraction: 'Sun visible', earth_visible_fraction: 'Earth visible' };
+const siteName = id => (app.sites.find(s => s.id === id) || { name: id }).name.replace(/ \(.*\)$/, '');
 
 function renderValidation(raw) {
   const rows = normalizeValidation(raw), box = $('valBody');
   if (!rows.length) { box.innerHTML = '<p class="empty">No validation data available (validation.json missing or empty).</p>'; return; }
   const n = (v, d = 4) => v == null ? '-' : (typeof v === 'number' ? v.toFixed(d) : v);
   const esc = s => String(s == null ? '-' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  box.innerHTML = `<table><thead><tr><th>Site</th><th>Metric</th><th>Model</th><th>Published</th><th>Abs. error</th><th>Rel. error</th><th>Source</th></tr></thead><tbody>` +
-    rows.map(r => `<tr><td>${esc(r.site)}</td><td>${esc(r.metric)}</td><td class="num">${n(r.model)}</td><td class="num">${n(r.published)}</td><td class="num">${n(r.abs_error)}</td><td class="num">${n(r.rel_error_pct, 2)}${r.rel_error_pct == null ? '' : '%'}</td><td>${esc(r.source)}${r.note ? '<br><span class="muted">' + esc(r.note) + '</span>' : ''}</td></tr>`).join('') +
-    `</tbody></table><p class="note">Model values come from the DEM horizon and Horizons ephemeris. See docs/validation.md for the exact comparison and its caveats.</p>`;
+  box.innerHTML = `<table><thead><tr><th>Site</th><th>Metric</th><th>Model</th><th>Published</th><th>Abs. error</th><th>Rel. error</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td>${esc(siteName(r.site))}</td><td>${esc(METRIC[r.metric] || r.metric)}</td><td class="num">${n(r.model)}</td><td class="num">${n(r.published)}</td><td class="num">${n(r.abs_error)}</td><td class="num">${n(r.rel_error_pct, 2)}${r.rel_error_pct == null ? '' : '%'}</td></tr>`).join('') +
+    `</tbody></table><p class="note">Fractions of the year (1 = always). Model: our DEM horizon and Horizons ephemeris, 2027, 2 m observer. Published: NASA PGDA Lunar Polar Illumination maps, 18.6-year average at surface height. See docs/validation.md for the exact comparison and its caveats.</p>`;
 }
 
 function renderBand(b) {
@@ -254,9 +257,9 @@ function renderBand(b) {
   let rows = '';
   for (const [id, r] of Object.entries(b.sites)) for (const h of ['0', '2', '5']) {
     const ps = r.patch5x5.sun.by_height[h], pe = r.patch5x5.earth.by_height[h];
-    rows += `<tr><td>${id}</td><td class="num">${h} m</td><td class="num">${x(r.poi[h].sun)}</td><td class="num">${sg(ps.mean_dev)} / ${x(ps.rmse)}</td><td class="num">${x(r.poi[h].earth)}</td><td class="num">${sg(pe.mean_dev)} / ${x(pe.rmse)}</td></tr>`;
+    rows += `<tr><td>${siteName(id)}</td><td class="num">${h} m</td><td class="num">${x(r.poi[h].sun)}</td><td class="num">${sg(ps.mean_dev)} / ${x(ps.rmse)}</td><td class="num">${x(r.poi[h].earth)}</td><td class="num">${sg(pe.mean_dev)} / ${x(pe.rmse)}</td></tr>`;
   }
-  box.innerHTML = '<table><thead><tr><th>Site</th><th>Observer</th><th>Sun % at POI</th><th>Sun 5x5 mean dev / RMSE (pp)</th><th>Earth % at POI</th><th>Earth 5x5 mean dev / RMSE (pp)</th></tr></thead><tbody>' + rows + '</tbody></table><p class="note">The 25 model points sit on the NASA 60 m pixels of a 5x5 patch around each POI, so unlike the POI row they are not the pixel the site was picked from. ' + b.note + ' Positive deviation: model brighter than the NASA map.</p>';
+  box.innerHTML = '<table><thead><tr><th>Site</th><th>Observer</th><th>Sun % at POI</th><th>Sun, 25 nearby points: mean diff / RMSE (points)</th><th>Earth % at POI</th><th>Earth, 25 nearby points: mean diff / RMSE (points)</th></tr></thead><tbody>' + rows + '</tbody></table><p class="note">The 25 model points sit on the NASA 60 m pixels of a 5x5 patch around each POI, so unlike the POI row they are not the pixel the site was picked from. ' + b.note + ' Positive deviation: model brighter than the NASA map.</p>';
 }
 
 function stopTour(msg) { app.tour = null; app.playing = false; $('play').textContent = 'Play'; $('tour').disabled = false; if (msg != null) $('tourMsg').textContent = msg; }
@@ -321,7 +324,7 @@ async function main() {
     if (sonic.on) sonic.stop(); else if (!sonic.start()) { $('sonify').textContent = 'Sound unavailable'; return; }
     $('sonify').textContent = 'Sound: ' + (sonic.on ? 'on' : 'off'); $('sonify').setAttribute('aria-pressed', String(sonic.on)); app.dirty = true;
   };
-  app.views.push(new View($('views'), app.sites[0].id, 0));
+  app.views.push(new View($('views'), app.sites[0].id));
   $('compare').onchange = relayout;
   $('slider').oninput = e => { if (app.tour) stopTour(''); const { start, stepMs } = app.timeline; setTime(start + Number(e.target.value) * stepMs); };
   $('tour').onclick = startTour;

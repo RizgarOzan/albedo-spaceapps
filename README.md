@@ -16,7 +16,7 @@ Lunar Light Clock shows when the Sun and the Earth are above the horizon at cand
 
 ## How it works
 
-A Python pipeline reads a 20 km window of the DEM around each site, ray-marches a 360 degree horizon, and compares it with the hourly Sun and Earth azimuth and elevation from Horizons. The viewer is static three.js, no server.
+A Python pipeline reads a 64 km window of the DEM around each site, ray-marches a 360 degree horizon, and compares it with the hourly Sun and Earth azimuth and elevation from Horizons. The viewer is static three.js, no server.
 
 Known limits, stated openly: the horizon only reaches 30 km, one year is compared with an 18.6-year NASA average, and results should be read as plus or minus 10 points. Numbers and caveats are in [docs/validation.md](docs/validation.md).
 
@@ -24,6 +24,6 @@ Known limits, stated openly: the horizon only reaches 30 km, one year is compare
 
 Viewer: serve the repo root with any static server and open `web/`.
 
-Data pipeline (Python 3.11+): `pip install -r requirements.txt`, then `python scripts/build_data.py` and `python scripts/validate.py`. Steps are in [docs/data-pipeline.md](docs/data-pipeline.md).
+Data pipeline (Python 3.11+): `pip install -r requirements.txt`, then `python scripts/build_data.py`, `python scripts/extend_range.py` and `python scripts/validate.py`. Steps are in [docs/data-pipeline.md](docs/data-pipeline.md).
 
 Tests: `cd web && node --test test/logic.test.mjs`, and `node scripts/check_data.mjs`.
