@@ -1,0 +1,101 @@
+{
+ "note": "20 runs, 2027 hourly ephemeris, 30 km, observer 2 m. DEM noise: Gaussian field std 1.5 m, correlation length 1000 m (assumed values, not measured). Reports mean and 5-95% range.",
+ "sites": {
+  "shackleton": {
+   "baseline": {
+    "sun_frac": 0.86,
+    "sun_visible_h": 7534,
+    "longest_dark_h": 147,
+    "earth_frac": 0.4586,
+    "earth_visible_h": 4017,
+    "longest_no_earth_h": 354,
+    "horizon_mean_deg": -1.54,
+    "horizon_max_deg": 1.325
+   },
+   "sun_frac": {
+    "mean": 0.8593,
+    "p5": 0.8579,
+    "p95": 0.8608
+   },
+   "earth_frac": {
+    "mean": 0.4581,
+    "p5": 0.4564,
+    "p95": 0.4603
+   },
+   "longest_dark_h": {
+    "mean": 147.1,
+    "p5": 145.85,
+    "p95": 149.0
+   },
+   "longest_no_earth_h": {
+    "mean": 353.4,
+    "p5": 351.95,
+    "p95": 354.1
+   }
+  },
+  "nobile": {
+   "baseline": {
+    "sun_frac": 0.8797,
+    "sun_visible_h": 7706,
+    "longest_dark_h": 151,
+    "earth_frac": 0.5914,
+    "earth_visible_h": 5181,
+    "longest_no_earth_h": 273,
+    "horizon_mean_deg": -2.914,
+    "horizon_max_deg": 1.85
+   },
+   "sun_frac": {
+    "mean": 0.8794,
+    "p5": 0.8689,
+    "p95": 0.8845
+   },
+   "earth_frac": {
+    "mean": 0.5901,
+    "p5": 0.5859,
+    "p95": 0.5947
+   },
+   "longest_dark_h": {
+    "mean": 155.65,
+    "p5": 148.9,
+    "p95": 160.95
+   },
+   "longest_no_earth_h": {
+    "mean": 274.2,
+    "p5": 271.0,
+    "p95": 277.15
+   }
+  },
+  "malapert": {
+   "baseline": {
+    "sun_frac": 0.6458,
+    "sun_visible_h": 5657,
+    "longest_dark_h": 341,
+    "earth_frac": 0.795,
+    "earth_visible_h": 6964,
+    "longest_no_earth_h": 143,
+    "horizon_mean_deg": -1.863,
+    "horizon_max_deg": -0.905
+   },
+   "sun_frac": {
+    "mean": 0.6468,
+    "p5": 0.6413,
+    "p95": 0.6517
+   },
+   "earth_frac": {
+    "mean": 0.7944,
+    "p5": 0.7877,
+    "p95": 0.8017
+   },
+   "longest_dark_h": {
+    "mean": 340.75,
+    "p5": 338.0,
+    "p95": 343.0
+   },
+   "longest_no_earth_h": {
+    "mean": 143.1,
+    "p5": 138.0,
+    "p95": 147.05
+   }
+  }
+ }
+}
