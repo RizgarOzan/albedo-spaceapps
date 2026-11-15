@@ -1,4 +1,4 @@
-"""Same Sun/Earth visibility numbers as the 2027 run, for 2026 to 2034 (9 years, about half a lunar node cycle).
+"""Same Sun/Earth visibility numbers as the 2027 run, for 2026 to 2044 (19 years, one full 18.6-year lunar node cycle).
 Horizons calls only (hourly, 365 d, cached in data/cache); DEM windows already in data/. 2027 is recomputed from
 data/ephemeris so all three years go through the same code path.
 Usage: python scripts/multiyear.py   -> data/multiyear.json"""
@@ -12,7 +12,7 @@ from extend_range import big_dem
 
 D = os.path.join(ROOT, "data")
 CACHE = os.path.join(D, "cache")
-YEARS = tuple(range(2026, 2035))
+YEARS = tuple(range(2026, 2045))
 
 
 def _query(s, target, start, stop):
