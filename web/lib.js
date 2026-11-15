@@ -258,3 +258,11 @@ export function delayScenario(winsBySite, siteId, day, delayDays) {
 // Moon Trek has no verified deep-link format, so the link opens the viewer and the page shows the coordinates to enter.
 export const TREK_URL = 'https://trek.nasa.gov/moon/';
 export function trekHint(lat, lon) { return `Open NASA Moon Trek and search ${lat.toFixed(4)}, ${lon.toFixed(4)} (lat, east-positive lon) to compare with its illumination layers.`; }
+
+// Year-to-year spread of the 2027 numbers over 2026-2034 (data/multiyear.json), as a short string for the stats card.
+export function multiyearNote(my, id) {
+  const s = my && my.sites && my.sites[id];
+  if (!s || !s.spread_pts || !s.years) return '';
+  const ys = Object.keys(s.years);
+  return `Over ${ys[0]}-${ys[ys.length - 1]} the Sun fraction moves ${s.spread_pts.sun.toFixed(1)} points and the Earth fraction ${s.spread_pts.earth.toFixed(1)} points, so treat the 2027 values as +/- about half of that.`;
+}

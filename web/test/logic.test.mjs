@@ -167,3 +167,10 @@ test('trekHint names the coordinates', () => {
   assert.match(L.trekHint(-89.9, 129.2), /-89\.9000, 129\.2000/);
   assert.ok(L.TREK_URL.startsWith('https://trek.nasa.gov/'));
 });
+
+test('multiyearNote reports the spread and tolerates missing data', () => {
+  const my = { sites: { a: { years: { 2026: {}, 2034: {} }, spread_pts: { sun: 2.85, earth: 8.09 } } } };
+  assert.match(L.multiyearNote(my, 'a'), /2026-2034.*2\.9 points.*8\.1 points/);
+  assert.equal(L.multiyearNote(my, 'b'), '');
+  assert.equal(L.multiyearNote(null, 'a'), '');
+});

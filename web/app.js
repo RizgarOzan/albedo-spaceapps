@@ -1,6 +1,6 @@
 import * as THREE from './vendor/three.module.js';
 import { loadSites, loadSiteData, loadOptional, normalizeValidation, stepIndex, horizonAt, isVisible,
-  visibilitySeries, nextTransition, formatCountdown, formatUtc } from './lib.js';
+  visibilitySeries, nextTransition, formatCountdown, formatUtc, multiyearNote } from './lib.js';
 import { initNavigator } from './navigator.js';
 import { initPlanner } from './planner.js';
 import { Sonifier } from './sonify.js';
@@ -216,7 +216,7 @@ class View {
     else html += `<div class="card wide"><h3>2027 statistics</h3><div class="stats">
       <div>Sunlit fraction<b>${pct(st.illumination_fraction)}</b></div><div>Longest dark spell<b>${fmt(st.longest_dark_hours, 0)} h</b></div>
       <div>Earth visible<b>${pct(st.earth_visible_fraction)}</b></div><div>Longest no-Earth spell<b>${fmt(st.longest_no_earth_hours, 0)} h</b></div>
-      <div>Mean Sun elevation when up<b>${fmt(st.mean_sun_el_when_up, 2)}°</b></div></div></div>`;
+      <div>Mean Sun elevation when up<b>${fmt(st.mean_sun_el_when_up, 2)}°</b></div></div>${app.multiyear && multiyearNote(app.multiyear, this.siteId) ? `<p class="note">${multiyearNote(app.multiyear, this.siteId)}</p>` : ''}</div>`;
     P.innerHTML = html;
   }
 }
@@ -310,6 +310,7 @@ async function main() {
   $('mockBanner').hidden = !app.mock;
   $('loadMsg').textContent = 'Data: ' + app.base + (app.mock ? ' (mock)' : '');
   app.summary = await loadOptional(fetchFn, app.base, 'summary.json');
+  app.multiyear = await loadOptional(fetchFn, app.base, 'multiyear.json');
   renderValidation(await loadOptional(fetchFn, app.base, 'validation.json'));
   renderBand(await loadOptional(fetchFn, app.base, 'validation_band.json'));
   initNavigator({ sites: app.sites, base: app.base, siteData });
