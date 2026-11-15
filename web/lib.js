@@ -254,3 +254,7 @@ export function delayScenario(winsBySite, siteId, day, delayDays) {
   const ok = rows.filter(r => r.w), best = ok.length ? ok.reduce((a, b) => b.w.score > a.w.score ? b : a) : null;
   return { planned: (winsBySite[siteId] || [])[day] || null, delayed: rows, bestId: best ? best.id : null };
 }
+
+// Moon Trek has no verified deep-link format, so the link opens the viewer and the page shows the coordinates to enter.
+export const TREK_URL = 'https://trek.nasa.gov/moon/';
+export function trekHint(lat, lon) { return `Open NASA Moon Trek and search ${lat.toFixed(4)}, ${lon.toFixed(4)} (lat, east-positive lon) to compare with its illumination layers.`; }

@@ -1,4 +1,4 @@
-import { horizonFromDem, truncatedAz, sectorTruncated, seriesStats, latLonToPx, pxToLatLon, samplePublished, candidateGrid, navScore, rankRows, toCsv, NAV_MARGIN_PX } from './lib.js';
+import { horizonFromDem, truncatedAz, sectorTruncated, seriesStats, latLonToPx, pxToLatLon, samplePublished, candidateGrid, navScore, rankRows, toCsv, NAV_MARGIN_PX, TREK_URL, trekHint } from './lib.js';
 
 const $ = id => document.getElementById(id);
 const PUB = 256, STRIDE = 48;
@@ -80,7 +80,7 @@ export function initNavigator(ctx) {
     const p = v => v == null ? '-' : (v * 100).toFixed(1), d = (a, b) => b == null ? '-' : ((a - b) >= 0 ? '+' : '') + ((a - b) * 100).toFixed(1);
     const top = st.rows.slice(0, 20); if (st.last && !top.includes(st.last)) top.push(st.last);
     $('navBody').innerHTML = '<table><thead><tr><th>#</th><th>Lat</th><th>Lon</th><th>Sun %</th><th>Earth % (upper bound)</th><th>Longest dark (h)</th><th>NASA Sun %</th><th>Diff (pp)</th><th>NASA Earth %</th><th>Diff (pp)</th></tr></thead><tbody>' +
-      top.map(r => `<tr${r === st.last ? ' class="hl"' : ''}><td>${r.rank}${r.picked ? ' *' : ''}</td><td class="num">${r.lat.toFixed(3)}</td><td class="num">${r.lon.toFixed(3)}</td><td class="num">${p(r.sun)}</td><td class="num">${p(r.earth)}${r.earthTrunc ? ' †' : ''}</td><td class="num">${r.darkH}</td><td class="num">${p(r.pubSun)}</td><td class="num">${d(r.sun, r.pubSun)}</td><td class="num">${p(r.pubEarth)}</td><td class="num">${d(r.earth, r.pubEarth)}</td></tr>`).join('') + '</tbody></table>';
+      top.map(r => `<tr${r === st.last ? ' class="hl"' : ''}><td>${r.rank}${r.picked ? ' *' : ''}</td><td class="num">${r.lat.toFixed(3)}</td><td class="num">${r.lon.toFixed(3)}</td><td class="num">${p(r.sun)}</td><td class="num">${p(r.earth)}${r.earthTrunc ? ' †' : ''}</td><td class="num">${r.darkH}</td><td class="num">${p(r.pubSun)}</td><td class="num">${d(r.sun, r.pubSun)}</td><td class="num">${p(r.pubEarth)}</td><td class="num">${d(r.earth, r.pubEarth)}</td></tr>`).join('') + '</tbody></table>' + (st.last ? `<p class="note">${trekHint(st.last.lat, st.last.lon)} <a href="${TREK_URL}" target="_blank" rel="noopener">NASA Moon Trek</a></p>` : '');
   }
   load(ctx.sites[0].id);
 }

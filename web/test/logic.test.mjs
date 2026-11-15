@@ -162,3 +162,8 @@ test('delayScenario flags best site at the delayed day', () => {
   assert.equal(r.delayed.find(x => x.id === 'c').w, null);
   assert.equal(L.delayScenario(by, 'a', 0, 5).bestId, null);
 });
+
+test('trekHint names the coordinates', () => {
+  assert.match(L.trekHint(-89.9, 129.2), /-89\.9000, 129\.2000/);
+  assert.ok(L.TREK_URL.startsWith('https://trek.nasa.gov/'));
+});
